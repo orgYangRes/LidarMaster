@@ -1,0 +1,9 @@
+﻿  uic LidarMaster.ui
+  rcc LidarMaster.qrc
+  moc LidarMaster.h
+   RCC: Warning: No resources in 'D:\Lidar_Master\VS_Win10_VTK\VS_Win10_VTK\LidarMaster.qrc'.
+  LidarMaster.cpp
+  main.cpp
+  qrc_LidarMaster.cpp
+  moc_LidarMaster.cpp
+  VS_Win10_VTK.vcxproj -> D:\Lidar_Master\VS_Win10_VTK\x64\Debug\VS_Win10_VTK.exe
