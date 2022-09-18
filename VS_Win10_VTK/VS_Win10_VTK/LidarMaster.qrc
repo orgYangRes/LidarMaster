@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/LidarMaster">
+        <file>img/logo.png</file>
+        <file>img/new.png</file>
+        <file>img/hide.png</file>
+        <file>img/show.png</file>
+        <file>img/cancel.png</file>
+        <file>img/ok.png</file>
+        <file>img/open.png</file>
+        <file>img/pro.png</file>
+    </qresource>
+</RCC>

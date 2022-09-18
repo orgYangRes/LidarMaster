@@ -1,6 +1,7 @@
 # Prerequisites
 *.d
-
+VS_Win10_VTK/.vs
+VS_Win10_VTK/x64
 # Compiled Object files
 *.slo
 *.lo
