@@ -8,8 +8,10 @@
 #include <QToolBar>
 #include <QAction>
 #include "LidarNewPro.h"
+#include "PtRenderWidget.h"
 class LidarMaster;
 class LidarNewPro;
+class PtCloudRender;
 class LidarMenu  : public QMenuBar
 {
 	Q_OBJECT
@@ -34,12 +36,15 @@ private:
 	QPointer<QToolBar> m_PtrToolBar;
 	//新建工程
 	QPointer<LidarNewPro>m_PtrNewPro;
-	
+	//渲染对话框
+	QPointer< PtRenderWidget> m_PtrCloudRender;
 	
 	// 文件模块
 	void menu_File();
 	// 视图模块
 	void menu_ShowWin();
+	// 点云设置
+	void menu_PtCloudSetup();
 
 	
 
@@ -55,4 +60,10 @@ private slots:
 	void showLasInfo();
 	// 是否显示其他信息区域
 	void showOtherInfo();
+
+	//显示渲染对话框
+	void showRenderDialog();
+
+
+
 };

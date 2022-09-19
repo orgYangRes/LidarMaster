@@ -24,6 +24,7 @@ LidarMaster::LidarMaster(QWidget* parent)
 	
 	m_PtrQVtkWindow = new QVTKWindow(100, this, this);
 	m_dockMain->setWidget(m_PtrQVtkWindow);
+	connect(this, SIGNAL(sendRenderAxis(QString&)), m_PtrQVtkWindow, SLOT(recvRenderCoords(QString&)));
 
 }
 
@@ -153,7 +154,6 @@ void LidarMaster::isOtherInfo()
 
 void LidarMaster::treeItemClickedSlot(QTreeWidgetItem* item, int col)
 {
-	qDebug() << "item:" << item->text(0);
 	if (item->parent())
 	{
 		if (item->checkState(0)==Qt::Checked)
@@ -166,9 +166,14 @@ void LidarMaster::treeItemClickedSlot(QTreeWidgetItem* item, int col)
 			QString tmp = "";
 			m_PtrQVtkWindow->showLidarData(tmp);
 		}
-
 	}
 }
+
+void LidarMaster::recPtCloudRenderSlot(QString& strCoord)
+{
+	emit sendRenderAxis(strCoord);
+}
+
 
 void LidarMaster::isLasInfo()
 {

@@ -157,9 +157,6 @@ void QVTKWindow::showLidarData(QString& lidarFile)
             m_Cloud->points[i].x = lasreader->point.get_x();
             m_Cloud->points[i].y = lasreader->point.get_y();
             m_Cloud->points[i].z = lasreader->point.get_z();
-            //m_Cloud->points[i].r = lasreader->point.get_R();
-            //m_Cloud->points[i].g = lasreader->point.get_G();
-            //m_Cloud->points[i].b = lasreader->point.get_B();
             ++i;
         }
         m_PtrLidarMaster->m_PtrLasInfoTree->topLevelItem(0)->child(1)->setText(1, QStringLiteral("las"));
@@ -172,13 +169,23 @@ void QVTKWindow::showLidarData(QString& lidarFile)
     viewer->setBackgroundColor(0, 0, 0); //设置背景
     // viewer->addCoordinateSystem (15.0); //设置坐标系
     pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZ> fildColor(m_Cloud, "z");
-    viewer->addPointCloud<pcl::PointXYZ>(m_Cloud, fildColor, "sample cloud");
-    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud");
+    viewer->addPointCloud<pcl::PointXYZ>(m_Cloud, fildColor, "cloud");
+    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
     viewer->resetCamera();
 
     update();
 }
-
+void QVTKWindow::recvRenderCoords(QString& strAxis)
+{
+    if (m_Cloud->points.size() > 0)
+    {
+        pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZ> fildColor(m_Cloud, strAxis.toStdString());
+        viewer->updatePointCloud(m_Cloud, fildColor, "cloud");
+        viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
+        viewer->resetCamera();
+        update();
+    }
+}
 
 
 

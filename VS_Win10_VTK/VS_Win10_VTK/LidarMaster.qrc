@@ -8,5 +8,9 @@
         <file>img/ok.png</file>
         <file>img/open.png</file>
         <file>img/pro.png</file>
+        <file>img/color.png</file>
+        <file>img/render.png</file>
+        <file>img/size.png</file>
+        <file>img/coords.png</file>
     </qresource>
 </RCC>

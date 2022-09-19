@@ -61,18 +61,11 @@ public:
     VTK_POINT_CLOUD_S *Vtk_Win_Point_Cloud;
     pcl::PointCloud<pcl::PointXYZ>::Ptr m_Cloud;
     QString m_strLasFile;
+    pcl::visualization::PCLVisualizer::Ptr viewer;
 private:
     LidarMaster* m_PtrLidarMaster;
-protected:
-
-
-
-
-
-
-
 private:
-    pcl::visualization::PCLVisualizer::Ptr viewer;
+    
     PointCloudT::Ptr                       cloud;
     pcl::PointCloud<pcl::PointXYZ>::Ptr              cloude_color;
     std::string                            Text;
@@ -80,7 +73,8 @@ private:
     unsigned int green;
     unsigned int blue;
     int Window_Size;
-
+private slots:
+    void recvRenderCoords(QString& strAxis);
 
 };
 

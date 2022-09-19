@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClCompile Include="LidarMenu.cpp" />
     <ClCompile Include="LidarNewPro.cpp" />
+    <ClCompile Include="PtRenderWidget.cpp" />
     <ClCompile Include="QVTKWindow.cpp" />
     <QtRcc Include="LidarMaster.qrc" />
     <QtUic Include="LidarMaster.ui" />
@@ -108,6 +109,7 @@
     <ClCompile Include="LidarMaster.cpp" />
     <ClCompile Include="main.cpp" />
     <QtUic Include="LidarNewPro.ui" />
+    <QtUic Include="PtRenderWidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QVTKWindow.h" />
@@ -117,6 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LidarNewPro.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="PtRenderWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

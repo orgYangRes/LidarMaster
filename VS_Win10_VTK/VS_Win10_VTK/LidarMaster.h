@@ -45,7 +45,8 @@ private:
 
     // 设置点云信息窗口
     void setLasInfoDock();
-
+signals:
+    void sendRenderAxis(QString& strAxis);
 private slots:
     // 关闭点云信息信号
     void isLasInfo();
@@ -58,4 +59,8 @@ private slots:
 
     // 工程树节点点击槽
     void treeItemClickedSlot(QTreeWidgetItem* item, int col);
+
+    // 	接受渲染对话框槽函数
+    void recPtCloudRenderSlot(QString& strCoord);
+
 };

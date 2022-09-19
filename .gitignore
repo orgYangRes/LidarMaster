@@ -2,6 +2,7 @@
 *.d
 VS_Win10_VTK/.vs
 VS_Win10_VTK/x64
+data
 # Compiled Object files
 *.slo
 *.lo

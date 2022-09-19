@@ -14,7 +14,14 @@ LidarMenu::LidarMenu(QWidget* parent, LidarMaster* lasMaster)
 	m_PtrNewPro = new LidarNewPro;
 	m_PtrNewPro->setLidarMatser(lasMaster);
 
+	m_PtrCloudRender = new PtRenderWidget(this);
+	
+
+	connect(m_PtrCloudRender, SIGNAL(sendData(QString&)), m_PtrLidarMaster, SLOT(recPtCloudRenderSlot(QString&)));
 	menu_File();
+
+	menu_PtCloudSetup();
+
 	menu_ShowWin();
 }
 
@@ -59,7 +66,20 @@ void LidarMenu::menu_ShowWin()
 	showWin->addAction(m_isShowLasInfoAct);
 	showWin->addAction(m_isShowOtherInfoAct);
 }
+void LidarMenu::menu_PtCloudSetup()
+{
+	QAction* Act_pt_render = new QAction(QIcon(":/LidarMaster/img/render.png"), QStringLiteral("点云渲染"), this);
+	connect(Act_pt_render, SIGNAL(triggered()), this, SLOT(showRenderDialog()));
+	QAction* Act_pt_color = new QAction(QIcon(":/LidarMaster/img/color.png"), QStringLiteral("点云颜色"), this);
 
+	QAction* Act_pt_size = new QAction(QIcon(":/LidarMaster/img/size.png"), QStringLiteral("点云大小"), this);
+
+
+	QMenu* file = addMenu(QStringLiteral("点云渲染"));
+	file->addAction(Act_pt_render);
+	file->addAction(Act_pt_color);
+	file->addAction(Act_pt_size);
+}
 void LidarMenu::Pro_Open()
 {
 	QFileDialog* fileDialog = new QFileDialog(this);
@@ -136,3 +156,8 @@ void LidarMenu::showOtherInfo()
 		m_PtrLidarMaster->m_dockOtherInfo->hide();
 	}
 }
+void LidarMenu::showRenderDialog()
+{
+	m_PtrCloudRender->show();
+}
+

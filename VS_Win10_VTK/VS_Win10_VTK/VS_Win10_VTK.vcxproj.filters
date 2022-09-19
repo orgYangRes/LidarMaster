@@ -27,6 +27,9 @@
     <Filter Include="LasViewer">
       <UniqueIdentifier>{a8f732be-c390-4095-bbae-3c397c77fd74}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LidarSetup">
+      <UniqueIdentifier>{c571bcbc-fda4-4f61-b8e1-9913d6f73505}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="LidarMaster.qrc">
@@ -55,6 +58,9 @@
     <ClCompile Include="QVTKWindow.cpp">
       <Filter>LasViewer</Filter>
     </ClCompile>
+    <ClCompile Include="PtRenderWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LidarMenu.h">
@@ -66,9 +72,15 @@
     <QtMoc Include="QVTKWindow.h">
       <Filter>LasViewer</Filter>
     </QtMoc>
+    <QtMoc Include="PtRenderWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="LidarNewPro.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="PtRenderWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
