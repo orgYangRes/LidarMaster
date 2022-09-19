@@ -1,68 +1,9 @@
-﻿  Reading Qt configuration (F:/QT5142/5.14.2/msvc2017_64/bin/qmake)
-  LidarMenu.cpp
-  LidarNewPro.cpp
-  QVTKWindow.cpp
-  LidarMaster.cpp
-  main.cpp
+﻿  QVTKWindow.cpp
 D:\Lidar_Master\LidarMaster\VS_Win10_VTK\VS_Win10_VTK\QVTKWindow.cpp(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 QVTKWindow.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\BFloat16.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 QVTKWindow.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\GenericPacketMathFunctions.h(676,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 QVTKWindow.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarMenu.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\BFloat16.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarMenu.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 main.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\BFloat16.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 main.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\GenericPacketMathFunctions.h(676,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarMenu.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarNewPro.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\BFloat16.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarNewPro.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarMaster.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\GenericPacketMathFunctions.h(676,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 main.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\BFloat16.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarMaster.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\GenericPacketMathFunctions.h(676,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarNewPro.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\GenericPacketMathFunctions.h(676,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarMaster.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\io\io.h(41,1): warning C4081: 应输入“标识符”；找到“字符串” (编译源文件 QVTKWindow.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\interactor_style.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 QVTKWindow.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\io\io.h(41,1): warning C4081: 应输入“标识符”；找到“字符串” (编译源文件 LidarMenu.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\io\io.h(41,1): warning C4081: 应输入“标识符”；找到“字符串” (编译源文件 main.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\io\io.h(41,1): warning C4081: 应输入“标识符”；找到“字符串” (编译源文件 LidarNewPro.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\io\io.h(41,1): warning C4081: 应输入“标识符”；找到“字符串” (编译源文件 LidarMaster.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\pcl_visualizer.h(1605,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 QVTKWindow.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\interactor_style.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarMenu.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\interactor_style.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 main.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\interactor_style.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarNewPro.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\interactor_style.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarMaster.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\pcl_visualizer.h(1605,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarMenu.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\pcl_visualizer.h(1605,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 main.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\pcl_visualizer.h(1605,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarNewPro.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\pcl_visualizer.h(1605,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 LidarMaster.cpp)
-  qrc_LidarMaster.cpp
-  moc_LidarMaster.cpp
-  moc_QVTKWindow.cpp
-  moc_LidarMenu.cpp
-  moc_LidarNewPro.cpp
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_QVTKWindow.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\BFloat16.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_QVTKWindow.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\GenericPacketMathFunctions.h(676,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_QVTKWindow.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarMenu.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\BFloat16.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarMenu.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarNewPro.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\BFloat16.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarNewPro.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarMaster.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\BFloat16.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarMaster.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\GenericPacketMathFunctions.h(676,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarMenu.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\GenericPacketMathFunctions.h(676,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarNewPro.cpp)
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\GenericPacketMathFunctions.h(676,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarMaster.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\io\io.h(41,1): warning C4081: 应输入“标识符”；找到“字符串” (编译源文件 x64\Release\moc\moc_QVTKWindow.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\interactor_style.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_QVTKWindow.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\io\io.h(41,1): warning C4081: 应输入“标识符”；找到“字符串” (编译源文件 x64\Release\moc\moc_LidarMenu.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\io\io.h(41,1): warning C4081: 应输入“标识符”；找到“字符串” (编译源文件 x64\Release\moc\moc_LidarMaster.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\io\io.h(41,1): warning C4081: 应输入“标识符”；找到“字符串” (编译源文件 x64\Release\moc\moc_LidarNewPro.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\pcl_visualizer.h(1605,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_QVTKWindow.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\interactor_style.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarNewPro.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\interactor_style.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarMenu.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\interactor_style.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarMaster.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\pcl_visualizer.h(1605,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarNewPro.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\pcl_visualizer.h(1605,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarMenu.cpp)
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\pcl_visualizer.h(1605,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 x64\Release\moc\moc_LidarMaster.cpp)
-qtmain.lib(qtmain_win.obj) : warning LNK4099: 未找到 PDB“qtmain.pdb”(使用“qtmain.lib(qtmain_win.obj)”或在“D:\Lidar_Master\LidarMaster\VS_Win10_VTK\x64\Release\qtmain.pdb”中寻找)；正在链接对象，如同没有调试信息一样
+F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\BFloat16.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\GenericPacketMathFunctions.h(676,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+F:\PCL191\PCL121\include\pcl-1.12\pcl\io\io.h(41,1): warning C4081: 应输入“标识符”；找到“字符串”
+F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\interactor_style.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\pcl_visualizer.h(1605,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
   VS_Win10_VTK.vcxproj -> D:\Lidar_Master\LidarMaster\VS_Win10_VTK\x64\Release\VS_Win10_VTK.exe

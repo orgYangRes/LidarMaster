@@ -14,6 +14,8 @@ QMAKE_CXX.INCDIRS = \
     F:\\PCL191\\PCL121\\3rdParty\\FLANN\\include \
     F:\\PCL191\\PCL121\\3rdParty\\Qhull\\include \
     F:\\PCL191\\PCL121\\3rdParty\\OpenNI2\\Include \
+    F:\\PCL191\\laslib\\LASlib\\inc \
+    F:\\PCL191\\laslib\\LASzip\\src \
     F:\\VS2019\\VC\\Tools\\MSVC\\14.29.30133\\include \
     F:\\VS2019\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include \
     F:\\VS2019\\VC\\Auxiliary\\VS\\include \
@@ -31,6 +33,7 @@ QMAKE_CXX.LIBDIRS = \
     F:\\PCL191\\PCL121\\3rdParty\\FLANN\\lib \
     F:\\PCL191\\PCL121\\3rdParty\\OpenNI2\\Lib \
     F:\\PCL191\\PCL121\\3rdParty\\Qhull\\lib \
+    F:\\PCL191\\laslib\\LASlib\\lib \
     F:\\VS2019\\VC\\Tools\\MSVC\\14.29.30133\\lib\\x64 \
     F:\\VS2019\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\lib\\x64 \
     F:\\VS2019\\VC\\Auxiliary\\VS\\lib\\x64 \

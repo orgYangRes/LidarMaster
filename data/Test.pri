@@ -1,6 +1,6 @@
 {
-    "lasName": "3.pcd",
-    "lasPath": "D:/Lidar_Master/LidarMaster/data/3.pcd",
+    "lasName": "1.las",
+    "lasPath": "D:/Lidar_Master/LidarMaster/data/test.las",
     "proName": "Test",
     "proPath": "D:/Lidar_Master/LidarMaster/data/Test.pri"
 }

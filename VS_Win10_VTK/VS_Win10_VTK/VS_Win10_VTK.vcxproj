@@ -55,12 +55,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <IncludePath>F:\PCL191\install\release\include;F:\PCL191\install\release\include\vtk-8.1;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\PCL191\install\release\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\PCL191\install\release\include;F:\PCL191\install\release\include\vtk-8.1;F:\PCL191\laslib\LASlib\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\PCL191\install\release\lib;F:\PCL191\laslib\LASlib\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <IncludePath>F:\PCL191\PCL121\3rdParty\VTK\include;F:\PCL191\PCL121\3rdParty\VTK\include\vtk-9.1;F:\PCL191\PCL121\include\pcl-1.12;F:\PCL191\PCL121\3rdParty\Boost\include\boost-1_78;F:\PCL191\PCL121\3rdParty\Eigen\eigen3;F:\PCL191\PCL121\3rdParty\FLANN\include;F:\PCL191\PCL121\3rdParty\Qhull\include;F:\PCL191\PCL121\3rdParty\OpenNI2\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\PCL191\PCL121\3rdParty\VTK\lib;F:\PCL191\PCL121\lib;F:\PCL191\PCL121\3rdParty\Boost\lib;F:\PCL191\PCL121\3rdParty\FLANN\lib;F:\PCL191\PCL121\3rdParty\OpenNI2\Lib;F:\PCL191\PCL121\3rdParty\Qhull\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\PCL191\PCL121\3rdParty\VTK\include;F:\PCL191\PCL121\3rdParty\VTK\include\vtk-9.1;F:\PCL191\PCL121\include\pcl-1.12;F:\PCL191\PCL121\3rdParty\Boost\include\boost-1_78;F:\PCL191\PCL121\3rdParty\Eigen\eigen3;F:\PCL191\PCL121\3rdParty\FLANN\include;F:\PCL191\PCL121\3rdParty\Qhull\include;F:\PCL191\PCL121\3rdParty\OpenNI2\Include;F:\PCL191\laslib\LASlib\inc;F:\PCL191\laslib\LASzip\src;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\PCL191\PCL121\3rdParty\VTK\lib;F:\PCL191\PCL121\lib;F:\PCL191\PCL121\3rdParty\Boost\lib;F:\PCL191\PCL121\3rdParty\FLANN\lib;F:\PCL191\PCL121\3rdParty\OpenNI2\Lib;F:\PCL191\PCL121\3rdParty\Qhull\lib;F:\PCL191\laslib\LASlib\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
@@ -69,7 +69,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
-      <AdditionalDependencies>F:\PCL191\PCL121\3rdParty\Boost\lib\*.lib;F:\PCL191\PCL121\3rdParty\VTK\lib\*.lib;F:\PCL191\PCL121\3rdParty\FLANN\lib\*.lib;F:\PCL191\PCL121\3rdParty\OpenNI2\Lib\*.lib;F:\PCL191\PCL121\3rdParty\Qhull\lib\*.lib;pcl_common.lib;pcl_features.lib;pcl_filters.lib;pcl_io.lib;pcl_io_ply.lib;pcl_kdtree.lib;pcl_keypoints.lib;pcl_ml.lib;pcl_octree.lib;pcl_outofcore.lib;pcl_people.lib;pcl_recognition.lib;pcl_registration.lib;pcl_sample_consensus.lib;pcl_search.lib;pcl_segmentation.lib;pcl_stereo.lib;pcl_surface.lib;pcl_tracking.lib;pcl_visualization.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>F:\PCL191\PCL121\3rdParty\Boost\lib\*.lib;F:\PCL191\PCL121\3rdParty\VTK\lib\*.lib;F:\PCL191\PCL121\3rdParty\FLANN\lib\*.lib;F:\PCL191\PCL121\3rdParty\OpenNI2\Lib\*.lib;F:\PCL191\PCL121\3rdParty\Qhull\lib\*.lib;LASlib.lib;pcl_common.lib;pcl_features.lib;pcl_filters.lib;pcl_io.lib;pcl_io_ply.lib;pcl_kdtree.lib;pcl_keypoints.lib;pcl_ml.lib;pcl_octree.lib;pcl_outofcore.lib;pcl_people.lib;pcl_recognition.lib;pcl_registration.lib;pcl_sample_consensus.lib;pcl_search.lib;pcl_segmentation.lib;pcl_stereo.lib;pcl_surface.lib;pcl_tracking.lib;pcl_visualization.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">

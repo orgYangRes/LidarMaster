@@ -1,7 +1,8 @@
 #include "QVTKWindow.h"
 #include <qpainter.h>
 #include <qdebug.h>
-
+#include "lasreader.hpp"
+#include "laswriter.hpp"
 #include "vtkGenericOpenGLRenderWindow.h"
 #include <qdebug.h>
 #include <qfileinfo.h>
@@ -139,6 +140,32 @@ void QVTKWindow::showLidarData(QString& lidarFile)
         m_PtrLidarMaster->m_PtrLasInfoTree->topLevelItem(0)->child(0)->setText(1, QString::number(m_Cloud->points.size()));
         m_PtrLidarMaster->m_PtrLasInfoTree->topLevelItem(0)->child(1)->setText(1, QStringLiteral("ply"));
     }
+    else if (QFileInfo(lidarFile).suffix().contains("las"))
+    {
+        LASreadOpener lasreadopener;
+        QByteArray ba = lidarFile.toLatin1();
+        lasreadopener.set_file_name(ba.data());
+        LASreader* lasreader = lasreadopener.open(false);
+        size_t ct = lasreader->header.number_of_point_records;
+        m_Cloud->points.resize(ct);
+        m_Cloud->width = 1;
+        m_Cloud->height = ct;
+        m_Cloud->is_dense = false;
+        size_t i = 0;
+        while (lasreader->read_point() && i < ct)
+        {
+            m_Cloud->points[i].x = lasreader->point.get_x();
+            m_Cloud->points[i].y = lasreader->point.get_y();
+            m_Cloud->points[i].z = lasreader->point.get_z();
+            //m_Cloud->points[i].r = lasreader->point.get_R();
+            //m_Cloud->points[i].g = lasreader->point.get_G();
+            //m_Cloud->points[i].b = lasreader->point.get_B();
+            ++i;
+        }
+        m_PtrLidarMaster->m_PtrLasInfoTree->topLevelItem(0)->child(1)->setText(1, QStringLiteral("las"));
+    }
+    m_PtrLidarMaster->m_PtrLasInfoTree->topLevelItem(0)->child(0)->setText(1, QString::number(m_Cloud->points.size()));
+
     //	m_PtrLasInfoTree->topLevelItem(0)->child(0)->setText(1,"100000");
     // 显示结果图
 
