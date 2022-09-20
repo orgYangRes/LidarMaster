@@ -59,7 +59,7 @@
       <Filter>LasViewer</Filter>
     </ClCompile>
     <ClCompile Include="PtRenderWidget.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>LidarSetup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,7 +73,7 @@
       <Filter>LasViewer</Filter>
     </QtMoc>
     <QtMoc Include="PtRenderWidget.h">
-      <Filter>Header Files</Filter>
+      <Filter>LidarSetup</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

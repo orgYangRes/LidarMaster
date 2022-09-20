@@ -47,6 +47,7 @@ private:
     void setLasInfoDock();
 signals:
     void sendRenderAxis(QString& strAxis);
+    void sendColorInfo(QColor& color);
 private slots:
     // 关闭点云信息信号
     void isLasInfo();
@@ -62,5 +63,10 @@ private slots:
 
     // 	接受渲染对话框槽函数
     void recPtCloudRenderSlot(QString& strCoord);
+
+    void recColorInfo(QColor& color);
+
+    //刷新点云视图
+    void updateWindSlot();
 
 };

@@ -3,7 +3,7 @@
 #include <qdebug.h>
 #include "lasreader.hpp"
 #include "laswriter.hpp"
-#include "vtkGenericOpenGLRenderWindow.h"
+
 #include <qdebug.h>
 #include <qfileinfo.h>
 QVTKWindow::QVTKWindow(int win_size, QWidget *parent, LidarMaster* lasMaster)
@@ -11,11 +11,12 @@ QVTKWindow::QVTKWindow(int win_size, QWidget *parent, LidarMaster* lasMaster)
 {
     m_PtrLidarMaster = (LidarMaster*)lasMaster;
     // The default color
-    red         = 128;
-    green       = 128;
-    blue        = 128;
-    Window_Size = 0;
     Vtk_Win_Point_Cloud = new VTK_POINT_CLOUD_S[1920*1080*4*10];   
+    renderer2 = vtkSmartPointer<vtkRenderer>::New();
+    renderWindow2 = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
+    renderWindow2->AddRenderer(renderer2);
+    viewer.reset(new pcl::visualization::PCLVisualizer(renderer2, renderWindow2, "viewer", false));
+    
 }
 
 QVTKWindow::~QVTKWindow()
@@ -23,89 +24,17 @@ QVTKWindow::~QVTKWindow()
     delete Vtk_Win_Point_Cloud;
 }
 
-void QVTKWindow::setLidarMaster()
-{
-}
-
-void QVTKWindow::VTKWindow_Resize(int win_size)
-{
-    if (win_size == Window_Size) return;
-    Window_Size = win_size;
-    cloud->points.resize (win_size);
-
-    // Fill the cloud with some points
-    for (size_t i = 0; i < cloud->points.size (); ++i)
-    {
-      cloud->points[i].x = 1024 * rand () / (RAND_MAX + 1.0f);
-      cloud->points[i].y = 1024 * rand () / (RAND_MAX + 1.0f);
-      cloud->points[i].z = 1024 * rand () / (RAND_MAX + 1.0f);
-
-      cloud->points[i].r = red;
-      cloud->points[i].g = green;
-      cloud->points[i].b = blue;
-    }
-
-    viewer->updatePointCloud(cloud, "cloud");
-    update ();
-
-}
-
-void QVTKWindow::Update_Window_PointCloude()
-{
-    for (int i = 0; i < Window_Size; ++i) {
-        cloud->points[i].x = Vtk_Win_Point_Cloud[i].x;
-        cloud->points[i].y = Vtk_Win_Point_Cloud[i].y;
-        cloud->points[i].z = Vtk_Win_Point_Cloud[i].z;
-
-        cloud->points[i].r = red;
-        cloud->points[i].g = green;
-        cloud->points[i].b = blue;
-    }
-    viewer->updatePointCloud(cloud, "cloud");
-    update();
-}
-
-void QVTKWindow::Set_Error_Text(QString str)
-{
-    int x = 10;
-    int y = size().height()-50;
-    viewer->updateText(QString("No: %1").arg(str).toStdString(), x, y, 20, 1.0,255.0,255.0,"No_text");//红
-    update();
-}
-
-void QVTKWindow::Set_OK_Text(QString str)
-{
-    int x = size().width() -200;
-    int y = size().height()-50;
-    viewer->updateText(QString("Yes: %1").arg(str).toStdString(), x, y, 20, 255.0,1.0,255.0,"Yes_text");//蓝
-    update();
-}
-
-void QVTKWindow::Set_Info_Text(QString str)
-{
-    int x = size().width()/2 -10;
-    int y = size().height()-50;
-    viewer->updateText(QString("INFO: %1").arg(str).toStdString(), x, y, 20, 255.0,255.0,1.0,"INFO_text");//绿
-    update();
-}
-
 void QVTKWindow::showLidarData(QString& lidarFile)
 {
-#if VTK_MAJOR_VERSION > 8
 
-    auto renderer2 = vtkSmartPointer<vtkRenderer>::New();
-    auto renderWindow2 = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
-    renderWindow2->AddRenderer(renderer2);
-    viewer.reset(new pcl::visualization::PCLVisualizer(renderer2, renderWindow2, "viewer", false));
+//#if VTK_MAJOR_VERSION > 8
     this->setRenderWindow(viewer->getRenderWindow());
     viewer->setupInteractor(this->interactor(), this->renderWindow());
-
-#else
-    viewer.reset(new pcl::visualization::PCLVisualizer("viewer", false));
-    this->SetRenderWindow(viewer->getRenderWindow());
-    viewer->setupInteractor(this->GetInteractor(), this->GetRenderWindow());
-#endif
-
+//#else
+//    viewer.reset(new pcl::visualization::PCLVisualizer("viewer", false));
+//    this->SetRenderWindow(viewer->getRenderWindow());
+//    viewer->setupInteractor(this->GetInteractor(), this->GetRenderWindow());
+//#endif
 
     if (lidarFile.isEmpty())
     {
@@ -172,21 +101,29 @@ void QVTKWindow::showLidarData(QString& lidarFile)
     viewer->addPointCloud<pcl::PointXYZ>(m_Cloud, fildColor, "cloud");
     viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
     viewer->resetCamera();
-
-    update();
+   /* update();*/
 }
 void QVTKWindow::recvRenderCoords(QString& strAxis)
 {
     if (m_Cloud->points.size() > 0)
     {
-        pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZ> fildColor(m_Cloud, strAxis.toStdString());
-        viewer->updatePointCloud(m_Cloud, fildColor, "cloud");
+        pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZ> render(m_Cloud, strAxis.toStdString());
+        viewer->updatePointCloud(m_Cloud, render, "cloud");
         viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
-        viewer->resetCamera();
         update();
+        emit updateWind();
     }
 }
+void QVTKWindow::recColorInfoSlot(QColor& color)
+{
+    if (color.isValid() && viewer)
+    {
+        viewer->setBackgroundColor(color.redF(), color.greenF(), color.blueF());
+        this->update();
+        emit updateWind();
+    }
 
+}
 
 
 

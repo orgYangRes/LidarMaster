@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_QVTKWindow_t {
-    QByteArrayData data[5];
-    char stringdata0[46];
+    QByteArrayData data[9];
+    char stringdata0[88];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,14 +33,19 @@ struct qt_meta_stringdata_QVTKWindow_t {
 static const qt_meta_stringdata_QVTKWindow_t qt_meta_stringdata_QVTKWindow = {
     {
 QT_MOC_LITERAL(0, 0, 10), // "QVTKWindow"
-QT_MOC_LITERAL(1, 11, 16), // "recvRenderCoords"
-QT_MOC_LITERAL(2, 28, 0), // ""
-QT_MOC_LITERAL(3, 29, 8), // "QString&"
-QT_MOC_LITERAL(4, 38, 7) // "strAxis"
+QT_MOC_LITERAL(1, 11, 10), // "updateWind"
+QT_MOC_LITERAL(2, 22, 0), // ""
+QT_MOC_LITERAL(3, 23, 16), // "recvRenderCoords"
+QT_MOC_LITERAL(4, 40, 8), // "QString&"
+QT_MOC_LITERAL(5, 49, 7), // "strAxis"
+QT_MOC_LITERAL(6, 57, 16), // "recColorInfoSlot"
+QT_MOC_LITERAL(7, 74, 7), // "QColor&"
+QT_MOC_LITERAL(8, 82, 5) // "color"
 
     },
-    "QVTKWindow\0recvRenderCoords\0\0QString&\0"
-    "strAxis"
+    "QVTKWindow\0updateWind\0\0recvRenderCoords\0"
+    "QString&\0strAxis\0recColorInfoSlot\0"
+    "QColor&\0color"
 };
 #undef QT_MOC_LITERAL
 
@@ -50,18 +55,26 @@ static const uint qt_meta_data_QVTKWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags
+       1,    0,   29,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   19,    2, 0x08 /* Private */,
+       3,    1,   30,    2, 0x08 /* Private */,
+       6,    1,   33,    2, 0x08 /* Private */,
+
+ // signals: parameters
+    QMetaType::Void,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 3,    4,
+    QMetaType::Void, 0x80000000 | 4,    5,
+    QMetaType::Void, 0x80000000 | 7,    8,
 
        0        // eod
 };
@@ -72,8 +85,19 @@ void QVTKWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         auto *_t = static_cast<QVTKWindow *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->recvRenderCoords((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 0: _t->updateWind(); break;
+        case 1: _t->recvRenderCoords((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 2: _t->recColorInfoSlot((*reinterpret_cast< QColor(*)>(_a[1]))); break;
         default: ;
+        }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        {
+            using _t = void (QVTKWindow::*)();
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&QVTKWindow::updateWind)) {
+                *result = 0;
+                return;
+            }
         }
     }
 }
@@ -107,15 +131,21 @@ int QVTKWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 3)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 1;
+        _id -= 3;
     }
     return _id;
+}
+
+// SIGNAL 0
+void QVTKWindow::updateWind()
+{
+    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

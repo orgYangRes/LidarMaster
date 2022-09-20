@@ -1,6 +1,7 @@
 #include "LidarMenu.h"
 #include <QAction>
 #include <qdebug.h>
+
 LidarMenu::LidarMenu(QWidget* parent, LidarMaster* lasMaster)
 	: QMenuBar(parent)	
 {
@@ -18,6 +19,7 @@ LidarMenu::LidarMenu(QWidget* parent, LidarMaster* lasMaster)
 	
 
 	connect(m_PtrCloudRender, SIGNAL(sendData(QString&)), m_PtrLidarMaster, SLOT(recPtCloudRenderSlot(QString&)));
+	connect(this, SIGNAL(sendLidarColor(QColor&)), m_PtrLidarMaster, SLOT(recColorInfo(QColor&)));
 	menu_File();
 
 	menu_PtCloudSetup();
@@ -70,7 +72,9 @@ void LidarMenu::menu_PtCloudSetup()
 {
 	QAction* Act_pt_render = new QAction(QIcon(":/LidarMaster/img/render.png"), QStringLiteral("点云渲染"), this);
 	connect(Act_pt_render, SIGNAL(triggered()), this, SLOT(showRenderDialog()));
+
 	QAction* Act_pt_color = new QAction(QIcon(":/LidarMaster/img/color.png"), QStringLiteral("点云颜色"), this);
+	connect(Act_pt_color, SIGNAL(triggered()), this, SLOT(showColorDialog()));
 
 	QAction* Act_pt_size = new QAction(QIcon(":/LidarMaster/img/size.png"), QStringLiteral("点云大小"), this);
 
@@ -159,5 +163,11 @@ void LidarMenu::showOtherInfo()
 void LidarMenu::showRenderDialog()
 {
 	m_PtrCloudRender->show();
+}
+
+void LidarMenu::showColorDialog()
+{
+	QColor color = QColorDialog::getColor(Qt::white,this);
+	sendLidarColor(color);
 }
 

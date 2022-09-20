@@ -1,7 +1,8 @@
 #include "LidarMaster.h"
 #include <iostream>
 #include <string>
-
+#include <QVTKOpenGLNativeWidget.h>
+#include "vtkGenericOpenGLRenderWindow.h"
 LidarMaster::LidarMaster(QWidget* parent)
 	: QMainWindow(parent)
 {
@@ -23,8 +24,12 @@ LidarMaster::LidarMaster(QWidget* parent)
 	this->setMenuBar(m_PtrMenu);
 	
 	m_PtrQVtkWindow = new QVTKWindow(100, this, this);
-	m_dockMain->setWidget(m_PtrQVtkWindow);
+	m_dockMain->setParent(QVTKOpenGLNativeWidget);
+	/*m_dockMain->setWidget(m_PtrQVtkWindow);
+	connect(m_PtrQVtkWindow, SIGNAL(updateWind()), this, SLOT(updateWindSlot()));
+
 	connect(this, SIGNAL(sendRenderAxis(QString&)), m_PtrQVtkWindow, SLOT(recvRenderCoords(QString&)));
+	connect(this, SIGNAL(sendColorInfo(QColor&)), m_PtrQVtkWindow, SLOT(recColorInfoSlot(QColor&)));*/
 
 }
 
@@ -32,8 +37,11 @@ LidarMaster::~LidarMaster()
 {
 
 }
+void LidarMaster::updateWindSlot()
+{
+	m_dockMain->update();
 
-
+}
 void LidarMaster::MainFramAttri()
 {
 	// Èí¼þÃû³Æ
@@ -128,6 +136,7 @@ void LidarMaster::setLasInfoDock()
 
 	m_dockLasInfo->setWidget(m_PtrLasInfoTree);
 }
+
 void LidarMaster::isProInfo()
 {
 	if (m_dockProInfo->isHidden())
@@ -172,6 +181,11 @@ void LidarMaster::treeItemClickedSlot(QTreeWidgetItem* item, int col)
 void LidarMaster::recPtCloudRenderSlot(QString& strCoord)
 {
 	emit sendRenderAxis(strCoord);
+}
+
+void LidarMaster::recColorInfo(QColor& color)
+{
+	emit sendColorInfo(color);
 }
 
 

@@ -9,6 +9,8 @@
 #include <QAction>
 #include "LidarNewPro.h"
 #include "PtRenderWidget.h"
+#include <qcolordialog.h>
+#include <qcolor.h>
 class LidarMaster;
 class LidarNewPro;
 class PtCloudRender;
@@ -46,7 +48,8 @@ private:
 	// 点云设置
 	void menu_PtCloudSetup();
 
-	
+signals:
+	void sendLidarColor(QColor& color);
 
 private slots:
 	//新建工程
@@ -63,6 +66,8 @@ private slots:
 
 	//显示渲染对话框
 	void showRenderDialog();
+	// 显示点云颜色框
+	void showColorDialog();
 
 
 

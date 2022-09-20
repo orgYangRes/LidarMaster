@@ -19,8 +19,7 @@
 #include <pcl/console/parse.h>
 #include <pcl/io/ply_io.h>
 #include <pcl/visualization/pcl_visualizer.h>
-
-// Visualization Toolkit (VTK)
+#include "vtkGenericOpenGLRenderWindow.h"
 #include <vtkRenderWindow.h>
 #include <QVTKRenderWidget.h>
 #include <QVTKOpenGLNativeWidget.h>
@@ -49,14 +48,6 @@ public:
     explicit QVTKWindow(int win_size,QWidget *parent, LidarMaster* lasMaster);
     ~QVTKWindow();
 
-    void setLidarMaster();
-
-    void VTKWindow_Resize(int win_size);
-    void Update_Window_PointCloude();
-    void Set_Error_Text(QString str);
-    void Set_OK_Text(QString str);
-    void Set_Info_Text(QString str);
-
     void showLidarData(QString& lidarFile);
     VTK_POINT_CLOUD_S *Vtk_Win_Point_Cloud;
     pcl::PointCloud<pcl::PointXYZ>::Ptr m_Cloud;
@@ -66,15 +57,14 @@ private:
     LidarMaster* m_PtrLidarMaster;
 private:
     
-    PointCloudT::Ptr                       cloud;
-    pcl::PointCloud<pcl::PointXYZ>::Ptr              cloude_color;
-    std::string                            Text;
-    unsigned int red;
-    unsigned int green;
-    unsigned int blue;
-    int Window_Size;
+    vtkSmartPointer<vtkRenderer>renderer2;
+    vtkSmartPointer<vtkGenericOpenGLRenderWindow>renderWindow2;
+signals:
+    void updateWind();
 private slots:
     void recvRenderCoords(QString& strAxis);
+
+    void recColorInfoSlot(QColor& color);
 
 };
 
