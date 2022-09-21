@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_LidarMaster_t {
-    QByteArrayData data[19];
-    char stringdata0[209];
+    QByteArrayData data[18];
+    char stringdata0[200];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -47,18 +47,17 @@ QT_MOC_LITERAL(11, 105, 19), // "treeItemClickedSlot"
 QT_MOC_LITERAL(12, 125, 16), // "QTreeWidgetItem*"
 QT_MOC_LITERAL(13, 142, 4), // "item"
 QT_MOC_LITERAL(14, 147, 3), // "col"
-QT_MOC_LITERAL(15, 151, 20), // "recPtCloudRenderSlot"
-QT_MOC_LITERAL(16, 172, 8), // "strCoord"
-QT_MOC_LITERAL(17, 181, 12), // "recColorInfo"
-QT_MOC_LITERAL(18, 194, 14) // "updateWindSlot"
+QT_MOC_LITERAL(15, 151, 14), // "updateWindSlot"
+QT_MOC_LITERAL(16, 166, 16), // "recvRenderCoords"
+QT_MOC_LITERAL(17, 183, 16) // "recColorInfoSlot"
 
     },
     "LidarMaster\0sendRenderAxis\0\0QString&\0"
     "strAxis\0sendColorInfo\0QColor&\0color\0"
     "isLasInfo\0isProInfo\0isOtherInfo\0"
     "treeItemClickedSlot\0QTreeWidgetItem*\0"
-    "item\0col\0recPtCloudRenderSlot\0strCoord\0"
-    "recColorInfo\0updateWindSlot"
+    "item\0col\0updateWindSlot\0recvRenderCoords\0"
+    "recColorInfoSlot"
 };
 #undef QT_MOC_LITERAL
 
@@ -84,9 +83,9 @@ static const uint qt_meta_data_LidarMaster[] = {
        9,    0,   66,    2, 0x08 /* Private */,
       10,    0,   67,    2, 0x08 /* Private */,
       11,    2,   68,    2, 0x08 /* Private */,
-      15,    1,   73,    2, 0x08 /* Private */,
-      17,    1,   76,    2, 0x08 /* Private */,
-      18,    0,   79,    2, 0x08 /* Private */,
+      15,    0,   73,    2, 0x08 /* Private */,
+      16,    1,   74,    2, 0x08 /* Private */,
+      17,    1,   77,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
@@ -97,9 +96,9 @@ static const uint qt_meta_data_LidarMaster[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 12, QMetaType::Int,   13,   14,
-    QMetaType::Void, 0x80000000 | 3,   16,
-    QMetaType::Void, 0x80000000 | 6,    7,
     QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 3,    4,
+    QMetaType::Void, 0x80000000 | 6,    7,
 
        0        // eod
 };
@@ -116,9 +115,9 @@ void LidarMaster::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 3: _t->isProInfo(); break;
         case 4: _t->isOtherInfo(); break;
         case 5: _t->treeItemClickedSlot((*reinterpret_cast< QTreeWidgetItem*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 6: _t->recPtCloudRenderSlot((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 7: _t->recColorInfo((*reinterpret_cast< QColor(*)>(_a[1]))); break;
-        case 8: _t->updateWindSlot(); break;
+        case 6: _t->updateWindSlot(); break;
+        case 7: _t->recvRenderCoords((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 8: _t->recColorInfoSlot((*reinterpret_cast< QColor(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {

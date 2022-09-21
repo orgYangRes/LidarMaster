@@ -112,7 +112,7 @@
     <QtUic Include="PtRenderWidget.ui" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="QVTKWindow.h" />
+    <ClInclude Include="QVTKWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LidarMenu.h" />

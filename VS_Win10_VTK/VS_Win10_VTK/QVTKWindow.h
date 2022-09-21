@@ -27,7 +27,7 @@
 using namespace pcl;
 using namespace pcl::io;
 using namespace std;
-class LidarMaster;
+
 typedef pcl::PointXYZRGBA       PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
 
@@ -41,31 +41,31 @@ typedef struct vtkpointcloud{
     unsigned int blue;
 }VTK_POINT_CLOUD_S;
 
-class QVTKWindow : public QVTKOpenGLNativeWidget
-{
-    Q_OBJECT
-public:
-    explicit QVTKWindow(int win_size,QWidget *parent, LidarMaster* lasMaster);
-    ~QVTKWindow();
-
-    void showLidarData(QString& lidarFile);
-    VTK_POINT_CLOUD_S *Vtk_Win_Point_Cloud;
-    pcl::PointCloud<pcl::PointXYZ>::Ptr m_Cloud;
-    QString m_strLasFile;
-    pcl::visualization::PCLVisualizer::Ptr viewer;
-private:
-    LidarMaster* m_PtrLidarMaster;
-private:
-    
-    vtkSmartPointer<vtkRenderer>renderer2;
-    vtkSmartPointer<vtkGenericOpenGLRenderWindow>renderWindow2;
-signals:
-    void updateWind();
-private slots:
-    void recvRenderCoords(QString& strAxis);
-
-    void recColorInfoSlot(QColor& color);
-
-};
+//class QVTKWindow : public QVTKOpenGLNativeWidget
+//{
+//    Q_OBJECT
+//public:
+//    explicit QVTKWindow(QWidget *parent, LidarMaster* lasMaster);
+//    ~QVTKWindow();
+//
+//    void showLidarData(QString& lidarFile);
+//    VTK_POINT_CLOUD_S *Vtk_Win_Point_Cloud;
+//    pcl::PointCloud<pcl::PointXYZ>::Ptr m_Cloud;
+//    QString m_strLasFile;
+//    pcl::visualization::PCLVisualizer::Ptr viewer;
+//private:
+//    LidarMaster* m_PtrLidarMaster;
+//private:
+//    
+//    vtkSmartPointer<vtkRenderer>renderer2;
+//    vtkSmartPointer<vtkGenericOpenGLRenderWindow>renderWindow2;
+//signals:
+//    void updateWind();
+//private slots:
+//    void recvRenderCoords(QString& strAxis);
+//
+//    void recColorInfoSlot(QColor& color);
+//
+//};
 
 #endif // QVTKWINDOW_H

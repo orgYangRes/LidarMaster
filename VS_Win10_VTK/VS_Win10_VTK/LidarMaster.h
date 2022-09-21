@@ -38,6 +38,12 @@ public:
      QPointer<QTreeWidget> m_PtrLasInfoTree;
 
      QPointer< QVTKWindow> m_PtrQVtkWindow;
+
+     QPointer<QVTKOpenGLNativeWidget> m_LidarWidget;
+     pcl::visualization::PCLVisualizer::Ptr viewer;
+     vtkSmartPointer<vtkRenderer>renderer2;
+     vtkSmartPointer<vtkGenericOpenGLRenderWindow>renderWindow2;
+     pcl::PointCloud<pcl::PointXYZ>::Ptr m_Cloud;
 private:
     Ui::LidarMasterClass ui;
     // 主窗体属性配置
@@ -45,6 +51,8 @@ private:
 
     // 设置点云信息窗口
     void setLasInfoDock();
+
+    void showLidarData(QString& lidarFile);
 signals:
     void sendRenderAxis(QString& strAxis);
     void sendColorInfo(QColor& color);
@@ -61,12 +69,17 @@ private slots:
     // 工程树节点点击槽
     void treeItemClickedSlot(QTreeWidgetItem* item, int col);
 
-    // 	接受渲染对话框槽函数
-    void recPtCloudRenderSlot(QString& strCoord);
+  
 
-    void recColorInfo(QColor& color);
+    // 	接受渲染对话框槽函数
+
 
     //刷新点云视图
     void updateWindSlot();
+
+
+    void recvRenderCoords(QString& strAxis);
+
+    void recColorInfoSlot(QColor& color);
 
 };

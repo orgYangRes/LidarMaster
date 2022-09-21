@@ -18,8 +18,8 @@ LidarMenu::LidarMenu(QWidget* parent, LidarMaster* lasMaster)
 	m_PtrCloudRender = new PtRenderWidget(this);
 	
 
-	connect(m_PtrCloudRender, SIGNAL(sendData(QString&)), m_PtrLidarMaster, SLOT(recPtCloudRenderSlot(QString&)));
-	connect(this, SIGNAL(sendLidarColor(QColor&)), m_PtrLidarMaster, SLOT(recColorInfo(QColor&)));
+	connect(m_PtrCloudRender, SIGNAL(sendData(QString&)), m_PtrLidarMaster, SLOT(recvRenderCoords(QString&)));
+	connect(this, SIGNAL(sendLidarColor(QColor&)), m_PtrLidarMaster, SLOT(recColorInfoSlot(QColor&)));
 	menu_File();
 
 	menu_PtCloudSetup();

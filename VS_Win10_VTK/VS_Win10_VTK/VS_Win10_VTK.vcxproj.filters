@@ -69,9 +69,6 @@
     <QtMoc Include="LidarNewPro.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="QVTKWindow.h">
-      <Filter>LasViewer</Filter>
-    </QtMoc>
     <QtMoc Include="PtRenderWidget.h">
       <Filter>LidarSetup</Filter>
     </QtMoc>
@@ -83,5 +80,10 @@
     <QtUic Include="PtRenderWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="QVTKWindow.h">
+      <Filter>LasViewer</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

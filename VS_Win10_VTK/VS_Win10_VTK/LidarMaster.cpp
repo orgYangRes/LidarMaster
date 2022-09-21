@@ -3,6 +3,8 @@
 #include <string>
 #include <QVTKOpenGLNativeWidget.h>
 #include "vtkGenericOpenGLRenderWindow.h"
+#include "lasreader.hpp"
+#include "laswriter.hpp"
 LidarMaster::LidarMaster(QWidget* parent)
 	: QMainWindow(parent)
 {
@@ -22,14 +24,15 @@ LidarMaster::LidarMaster(QWidget* parent)
 	// 初始化菜单栏指针
 	m_PtrMenu = new LidarMenu(this, this);
 	this->setMenuBar(m_PtrMenu);
-	
-	m_PtrQVtkWindow = new QVTKWindow(100, this, this);
-	m_dockMain->setParent(QVTKOpenGLNativeWidget);
-	/*m_dockMain->setWidget(m_PtrQVtkWindow);
-	connect(m_PtrQVtkWindow, SIGNAL(updateWind()), this, SLOT(updateWindSlot()));
+	m_LidarWidget = new QVTKOpenGLNativeWidget;
+	/*m_PtrQVtkWindow = new QVTKWindow(this, this);*/
 
-	connect(this, SIGNAL(sendRenderAxis(QString&)), m_PtrQVtkWindow, SLOT(recvRenderCoords(QString&)));
-	connect(this, SIGNAL(sendColorInfo(QColor&)), m_PtrQVtkWindow, SLOT(recColorInfoSlot(QColor&)));*/
+	m_dockMain->setWidget(m_LidarWidget);
+	
+	renderer2 = vtkSmartPointer<vtkRenderer>::New();
+    renderWindow2 = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
+    renderWindow2->AddRenderer(renderer2);
+    viewer.reset(new pcl::visualization::PCLVisualizer(renderer2, renderWindow2, "viewer", false));
 
 }
 
@@ -39,7 +42,32 @@ LidarMaster::~LidarMaster()
 }
 void LidarMaster::updateWindSlot()
 {
-	m_dockMain->update();
+	/*m_PtrQVtkWindow->update();
+	m_PtrQVtkWindow->viewer->resetCamera();*/
+}
+void LidarMaster::recvRenderCoords(QString& strAxis)
+{
+	if (m_Cloud->points.size() > 0)
+    {
+        pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZ> render(m_Cloud, strAxis.toStdString());
+        viewer->updatePointCloud(m_Cloud, render, "cloud");
+        viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
+		m_LidarWidget->setRenderWindow(viewer->getRenderWindow());
+		viewer->setupInteractor(m_LidarWidget->interactor(), m_LidarWidget->renderWindow());
+		
+		m_LidarWidget->update();
+		m_dockMain->update();
+		update();
+    }
+
+}
+void LidarMaster::recColorInfoSlot(QColor& color)
+{
+	if (color.isValid() && viewer)
+    {
+        viewer->setBackgroundColor(color.redF(), color.greenF(), color.blueF());
+		m_LidarWidget->update();
+    }
 
 }
 void LidarMaster::MainFramAttri()
@@ -168,25 +196,95 @@ void LidarMaster::treeItemClickedSlot(QTreeWidgetItem* item, int col)
 		if (item->checkState(0)==Qt::Checked)
 		{
 			QString lidarFile = item->data(0, Qt::UserRole + 1).toString();
-			m_PtrQVtkWindow->showLidarData(lidarFile);
+			showLidarData(lidarFile);
 		}
 		else
 		{
 			QString tmp = "";
-			m_PtrQVtkWindow->showLidarData(tmp);
+			showLidarData(tmp);
 		}
 	}
 }
-
-void LidarMaster::recPtCloudRenderSlot(QString& strCoord)
+void LidarMaster::showLidarData(QString& lidarFile)
 {
-	emit sendRenderAxis(strCoord);
+
+//#if VTK_MAJOR_VERSION > 8
+	m_LidarWidget->setRenderWindow(viewer->getRenderWindow());
+    viewer->setupInteractor(m_LidarWidget->interactor(), m_LidarWidget->renderWindow());
+//#else
+//    viewer.reset(new pcl::visualization::PCLVisualizer("viewer", false));
+//    this->SetRenderWindow(viewer->getRenderWindow());
+//    viewer->setupInteractor(this->GetInteractor(), this->GetRenderWindow());
+//#endif
+
+    if (lidarFile.isEmpty())
+    {
+        viewer->removeAllPointClouds();
+        viewer->removeAllShapes();
+        return;
+    }
+    m_Cloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
+
+    if (QFileInfo(lidarFile).suffix().contains("pcd"))
+    {
+        pcl::PCDReader reader;
+        reader.read(lidarFile.toStdString(), *m_Cloud);
+		m_PtrLasInfoTree->topLevelItem(0)->child(0)->setText(1, QString::number(m_Cloud->points.size()));
+        
+        m_PtrLasInfoTree->topLevelItem(0)->child(1)->setText(1, QStringLiteral("pcd"));
+        if (m_Cloud->height == 1)
+        {
+            m_PtrLasInfoTree->topLevelItem(0)->child(2)->setText(1, "0");
+        }
+        else
+        {
+            m_PtrLasInfoTree->topLevelItem(0)->child(2)->setText(1, "1");
+        }
+    }
+    else if (QFileInfo(lidarFile).suffix().contains("ply"))
+    {
+        pcl::PolygonMesh meshData;//读取原始数据
+        pcl::io::loadPolygonFile(lidarFile.toStdString(), meshData);
+        pcl::fromPCLPointCloud2(meshData.cloud, *m_Cloud);//将obj数据转换为点云数据
+        m_PtrLasInfoTree->topLevelItem(0)->child(0)->setText(1, QString::number(m_Cloud->points.size()));
+       m_PtrLasInfoTree->topLevelItem(0)->child(1)->setText(1, QStringLiteral("ply"));
+    }
+    else if (QFileInfo(lidarFile).suffix().contains("las"))
+    {
+        LASreadOpener lasreadopener;
+        QByteArray ba = lidarFile.toLatin1();
+        lasreadopener.set_file_name(ba.data());
+        LASreader* lasreader = lasreadopener.open(false);
+        size_t ct = lasreader->header.number_of_point_records;
+        m_Cloud->points.resize(ct);
+        m_Cloud->width = 1;
+        m_Cloud->height = ct;
+        m_Cloud->is_dense = false;
+        size_t i = 0;
+        while (lasreader->read_point() && i < ct)
+        {
+            m_Cloud->points[i].x = lasreader->point.get_x();
+            m_Cloud->points[i].y = lasreader->point.get_y();
+            m_Cloud->points[i].z = lasreader->point.get_z();
+            ++i;
+        }
+        m_PtrLasInfoTree->topLevelItem(0)->child(1)->setText(1, QStringLiteral("las"));
+    }
+    m_PtrLasInfoTree->topLevelItem(0)->child(0)->setText(1, QString::number(m_Cloud->points.size()));
+
+   
+    // 显示结果图
+
+    viewer->setBackgroundColor(0, 0, 0); //设置背景
+    // viewer->addCoordinateSystem (15.0); //设置坐标系
+    pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZ> fildColor(m_Cloud, "z");
+    viewer->addPointCloud<pcl::PointXYZ>(m_Cloud, fildColor, "cloud");
+    viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
+    viewer->resetCamera();
+	m_LidarWidget->update();
 }
 
-void LidarMaster::recColorInfo(QColor& color)
-{
-	emit sendColorInfo(color);
-}
+
 
 
 void LidarMaster::isLasInfo()
