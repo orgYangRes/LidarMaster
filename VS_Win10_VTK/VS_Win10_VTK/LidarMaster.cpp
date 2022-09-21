@@ -52,9 +52,6 @@ void LidarMaster::recvRenderCoords(QString& strAxis)
         pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZ> render(m_Cloud, strAxis.toStdString());
         viewer->updatePointCloud(m_Cloud, render, "cloud");
         viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
-		m_LidarWidget->setRenderWindow(viewer->getRenderWindow());
-		viewer->setupInteractor(m_LidarWidget->interactor(), m_LidarWidget->renderWindow());
-		
 		m_LidarWidget->update();
 		m_dockMain->update();
 		update();

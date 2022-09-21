@@ -102,7 +102,6 @@
     <ClCompile Include="LidarMenu.cpp" />
     <ClCompile Include="LidarNewPro.cpp" />
     <ClCompile Include="PtRenderWidget.cpp" />
-    <ClCompile Include="QVTKWindow.cpp" />
     <QtRcc Include="LidarMaster.qrc" />
     <QtUic Include="LidarMaster.ui" />
     <QtMoc Include="LidarMaster.h" />

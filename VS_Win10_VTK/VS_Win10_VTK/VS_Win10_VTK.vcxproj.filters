@@ -55,9 +55,6 @@
     <ClCompile Include="LidarNewPro.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QVTKWindow.cpp">
-      <Filter>LasViewer</Filter>
-    </ClCompile>
     <ClCompile Include="PtRenderWidget.cpp">
       <Filter>LidarSetup</Filter>
     </ClCompile>
