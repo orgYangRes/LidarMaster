@@ -12,5 +12,10 @@
         <file>img/render.png</file>
         <file>img/size.png</file>
         <file>img/coords.png</file>
+        <file>img/las.png</file>
+        <file>img/height.png</file>
+        <file>img/info.png</file>
+        <file>img/filter1.png</file>
+        <file>img/gridfilter.png</file>
     </qresource>
 </RCC>

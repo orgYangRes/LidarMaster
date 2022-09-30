@@ -78,17 +78,20 @@ void LidarNewPro::addTrees(const QString& lasPath, const QString& proPath)
 
 	QTreeWidgetItem* item1 = new QTreeWidgetItem();
 	item1->setIcon(0, QIcon(":/LidarMaster/img/pro.png"));
-	item1->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsAutoTristate);
+	/*item1->setFlags(Qt::ItemIsEnabled  | Qt::ItemIsAutoTristate);*/
 	item1->setText(0, QFileInfo(proPath).baseName());
 	item1->setData(0, Qt::CheckStateRole, QVariant());
 
 	QTreeWidgetItem* item11 = new QTreeWidgetItem();
+	item11->setIcon(0, QIcon(":/LidarMaster/img/las.png"));
 	item11->setCheckState(0, Qt::Unchecked);
 	item11->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsAutoTristate);
 	item11->setText(0, QFileInfo(lasPath).fileName());
 	item11->setData(0, Qt::UserRole + 1, lasPath);
 	item1->addChild(item11);
 	m_PtrLidarMaster->m_PtrProTree->insertTopLevelItem(topCount, item1);
+	m_PtrLidarMaster->m_PtrProTree->setItemsExpandable(true);
+	m_PtrLidarMaster->m_PtrProTree->expandAll();
 }
 void LidarNewPro::on_tb_proPath_clicked()
 {

@@ -1,8 +1,4 @@
-﻿#ifndef QVTKWINDOW_H
-#define QVTKWINDOW_H
-
-// Point Cloud Library
-
+﻿
 #include <pcl/point_types.h>
 #include <pcl/common/io.h>
 #include <pcl/io/io.h>

@@ -47,6 +47,8 @@ private:
 	void menu_ShowWin();
 	// µ„‘∆…Ë÷√
 	void menu_PtCloudSetup();
+	//µ„‘∆¬À≤®
+	void menu_PtFilter();
 
 signals:
 	void sendLidarColor(QColor& color);

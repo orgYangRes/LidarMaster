@@ -21,8 +21,9 @@ LidarMenu::LidarMenu(QWidget* parent, LidarMaster* lasMaster)
 	connect(m_PtrCloudRender, SIGNAL(sendData(QString&)), m_PtrLidarMaster, SLOT(recvRenderCoords(QString&)));
 	connect(this, SIGNAL(sendLidarColor(QColor&)), m_PtrLidarMaster, SLOT(recColorInfoSlot(QColor&)));
 	menu_File();
-
 	menu_PtCloudSetup();
+	menu_PtFilter();
+
 
 	menu_ShowWin();
 }
@@ -84,6 +85,22 @@ void LidarMenu::menu_PtCloudSetup()
 	file->addAction(Act_pt_color);
 	file->addAction(Act_pt_size);
 }
+void LidarMenu::menu_PtFilter()
+{
+	QAction* Act_pt_filter1 = new QAction(QIcon(":/LidarMaster/img/gridfilter.png"), QStringLiteral("ÌåËØÂË²¨"), this);
+	connect(Act_pt_filter1, SIGNAL(triggered()), this, SLOT(showRenderDialog()));
+
+	QAction* Act_pt_filter2 = new QAction(QIcon(":/LidarMaster/img/gridfilter.png"), QStringLiteral("½üËÆÌåËØ"), this);
+	connect(Act_pt_filter2, SIGNAL(triggered()), this, SLOT(showColorDialog()));
+
+	QAction* Act_pt_filter3 = new QAction(QIcon(":/LidarMaster/img/filter1.png"), QStringLiteral("²ÉÑùÂË²¨"), this);
+
+
+	QMenu* filterMenu = addMenu(QStringLiteral("µãÔÆÂË²¨"));
+	filterMenu->addAction(Act_pt_filter1);
+	filterMenu->addAction(Act_pt_filter2);
+	filterMenu->addAction(Act_pt_filter3);
+}
 void LidarMenu::Pro_Open()
 {
 	QFileDialog* fileDialog = new QFileDialog(this);
@@ -97,6 +114,8 @@ void LidarMenu::Pro_Open()
 	if (fileDialog->exec()) {
 		fileNameList = fileDialog->selectedFiles();
 	}
+	if (fileNameList.size() <= 0)
+		return;
 	QString fileName = fileNameList.at(0);
 	if (!fileName.isEmpty())
 	{

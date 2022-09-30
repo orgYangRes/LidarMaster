@@ -10,6 +10,7 @@
 #include <QTreeWidgetItem>
 #include "LidarMenu.h"
 #include "QVTKWindow.h"
+#include <qsharedpointer.h>
 class LidarMenu;
 class QVTKWindow;
 class LidarMaster : public QMainWindow
@@ -51,8 +52,10 @@ private:
 
     // 设置点云信息窗口
     void setLasInfoDock();
-
+    QSharedPointer<std::thread> m_MainThread;
     void showLidarData(QString& lidarFile);
+
+    void showPtCloudHeightInfo();
 signals:
     void sendRenderAxis(QString& strAxis);
     void sendColorInfo(QColor& color);

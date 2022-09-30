@@ -111,9 +111,6 @@
     <QtUic Include="PtRenderWidget.ui" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="QVTKWindow.h" />
-  </ItemGroup>
-  <ItemGroup>
     <QtMoc Include="LidarMenu.h" />
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +118,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="PtRenderWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="QVTKWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

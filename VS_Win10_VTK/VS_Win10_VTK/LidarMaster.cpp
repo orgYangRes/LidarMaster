@@ -16,7 +16,7 @@ LidarMaster::LidarMaster(QWidget* parent)
 	m_PtrProTree->setHeaderHidden(true);
 
 	m_PtrLasInfoTree = new QTreeWidget(this);
-
+	m_Cloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
 
 	connect(m_PtrProTree, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(treeItemClickedSlot(QTreeWidgetItem*, int)));
 	// 设置主窗体属性
@@ -38,7 +38,14 @@ LidarMaster::LidarMaster(QWidget* parent)
 
 LidarMaster::~LidarMaster()
 {
-
+	if (m_MainThread != nullptr)
+	{
+		if (m_MainThread->joinable())
+		{
+			m_MainThread->join();
+		}
+		m_MainThread = nullptr;
+	}
 }
 void LidarMaster::updateWindSlot()
 {
@@ -47,24 +54,35 @@ void LidarMaster::updateWindSlot()
 }
 void LidarMaster::recvRenderCoords(QString& strAxis)
 {
-	if (m_Cloud->points.size() > 0)
+	if (m_Cloud&&m_Cloud->points.size() > 0)
     {
         pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZ> render(m_Cloud, strAxis.toStdString());
-        viewer->updatePointCloud(m_Cloud, render, "cloud");
-        viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
-		m_LidarWidget->update();
-		m_dockMain->update();
+		viewer->updatePointCloud(m_Cloud, render, "cloud");
+		viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
+		viewer->spin();
 		update();
     }
 
 }
 void LidarMaster::recColorInfoSlot(QColor& color)
 {
-	if (color.isValid() && viewer)
-    {
-        viewer->setBackgroundColor(color.redF(), color.greenF(), color.blueF());
-		m_LidarWidget->update();
-    }
+	/*if (color.isValid())
+	{
+		viewer->setBackgroundColor(color.redF(), color.greenF(), color.blueF());
+		viewer->spin();
+		update();
+	}*/
+	if (!m_Cloud->empty())
+	{
+		pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> render(m_Cloud, color.redF() * 255, color.greenF() * 255, color.blueF() * 255);
+		viewer->updatePointCloud(m_Cloud, render, "cloud");
+		viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
+		viewer->spin();
+		update();
+	}
+	
+	
+	
 
 }
 void LidarMaster::MainFramAttri()
@@ -88,9 +106,9 @@ void LidarMaster::MainFramAttri()
 	setStatusBar(stBar);
 	//添加提示信息到右侧
 	QLabel* lab_cprt = new QLabel(QStringLiteral("@版权所属1114809057@qq.com"), this);
-	lab_cprt->setStyleSheet("color:#ffffff;margin-right:10px;");
+	lab_cprt->setStyleSheet("color:#000000;margin-right:10px;");
 	stBar->addPermanentWidget(lab_cprt);
-	stBar->setStyleSheet("background:#000000;");
+	stBar->setStyleSheet("background:#ffffff;border: 1px solid black;");
 
 	// 点云显示区域
 	m_dockMain = new QDockWidget(this);
@@ -144,6 +162,7 @@ void LidarMaster::setLasInfoDock()
 	m_PtrLasInfoTree->setHeaderLabels(strList);
 
 	QTreeWidgetItem* parentItem1 = new QTreeWidgetItem(QStringList() << QStringLiteral("点云信息"));
+	parentItem1->setIcon(0, QIcon(":/LidarMaster/img/info.png"));
 	m_PtrLasInfoTree->addTopLevelItem(parentItem1);
 	QTreeWidgetItem* item11 = new QTreeWidgetItem();
 	item11->setText(0, QStringLiteral("点云个数"));
@@ -155,9 +174,30 @@ void LidarMaster::setLasInfoDock()
 	QTreeWidgetItem* item13 = new QTreeWidgetItem();
 	item13->setText(0, QStringLiteral("点云类型"));
 	item13->setText(1, QStringLiteral(""));
+
+	
+	
 	parentItem1->addChild(item11);
 	parentItem1->addChild(item12);
 	parentItem1->addChild(item13);
+
+	QTreeWidgetItem* parentItem2 = new QTreeWidgetItem(QStringList() << QStringLiteral("高度信息"));
+	parentItem2->setIcon(0, QIcon(":/LidarMaster/img/height.png"));
+	m_PtrLasInfoTree->addTopLevelItem(parentItem2);
+	QTreeWidgetItem* item21 = new QTreeWidgetItem();
+	item21->setText(0, QStringLiteral("最大高度"));
+	item21->setText(1, QStringLiteral(""));
+
+	QTreeWidgetItem* item22 = new QTreeWidgetItem();
+	item22->setText(0, QStringLiteral("最小高度"));
+	item22->setText(1, QStringLiteral(""));
+	QTreeWidgetItem* item23 = new QTreeWidgetItem();
+	item23->setText(0, QStringLiteral("平均高度"));
+	item23->setText(1, QStringLiteral(""));
+
+	parentItem2->addChild(item21);
+	parentItem2->addChild(item22);
+	parentItem2->addChild(item23);
 
 	m_dockLasInfo->setWidget(m_PtrLasInfoTree);
 }
@@ -220,7 +260,7 @@ void LidarMaster::showLidarData(QString& lidarFile)
         viewer->removeAllShapes();
         return;
     }
-    m_Cloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
+   
 
     if (QFileInfo(lidarFile).suffix().contains("pcd"))
     {
@@ -269,6 +309,9 @@ void LidarMaster::showLidarData(QString& lidarFile)
     }
     m_PtrLasInfoTree->topLevelItem(0)->child(0)->setText(1, QString::number(m_Cloud->points.size()));
 
+	if (m_MainThread != nullptr)
+		m_MainThread->join();
+	m_MainThread.reset(new std::thread([=] {showPtCloudHeightInfo(); }));
    
     // 显示结果图
 
@@ -279,6 +322,27 @@ void LidarMaster::showLidarData(QString& lidarFile)
     viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
     viewer->resetCamera();
 	m_LidarWidget->update();
+}
+
+void LidarMaster::showPtCloudHeightInfo()
+{
+	double aveHeight = 0, maxHeight = 0,minHeight  = DBL_MAX;
+
+	if (!m_Cloud->empty())
+	{	
+		double totalHeight = 0;
+		for (int i = 0; i < m_Cloud->points.size(); i++)
+		{
+			maxHeight = maxHeight > m_Cloud->points[i].z ? maxHeight : m_Cloud->points[i].z;
+			minHeight = minHeight > m_Cloud->points[i].z ?  m_Cloud->points[i].z : minHeight;
+			totalHeight += m_Cloud->points[i].z;
+		}
+		aveHeight = totalHeight / (m_Cloud->points.size()*1.0);
+
+		m_PtrLasInfoTree->topLevelItem(1)->child(0)->setText(1, QString::number(maxHeight));
+		m_PtrLasInfoTree->topLevelItem(1)->child(1)->setText(1, QString::number(minHeight));
+		m_PtrLasInfoTree->topLevelItem(1)->child(2)->setText(1, QString::number(aveHeight));
+	}
 }
 
 
