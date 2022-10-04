@@ -46,25 +46,26 @@ public:
      pcl::visualization::PCLVisualizer::Ptr viewer;
      vtkSmartPointer<vtkRenderer>renderer2;
      vtkSmartPointer<vtkGenericOpenGLRenderWindow>renderWindow2;
-     pcl::PointCloud<pcl::PointXYZ>::Ptr m_Cloud;
+
 private:
     Ui::LidarMasterClass ui;
     // 主窗体属性配置
     void MainFramAttri();
     std::atomic<int> m_nCloudIndex = 0;
-    QMap<int,pcl::PointCloud<pcl::PointXYZ>::Ptr>m_mapCloud;
+    QMap<int,QString>m_mapCloud;
 
     // 设置点云信息窗口
     void setLasInfoDock();
     QSharedPointer<std::thread> m_MainThread;
-    void showLidarData(QString& lidarFile);
+    void showLidarData(QString& lidarFile,int col =0);
 
     void showPtCloudHeightInfo();
 
     void getPtCLoud(QString& lidarFile,pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
 
     int savePtCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr tmpCloud, const QString& saveFileName);
-    void saveCloudToMap(pcl::PointCloud<pcl::PointXYZ>::Ptr tmpCloud);
+    int saveCloudToMap(QString& lasFile);
+    int getIndex(QString& file);
 signals:
     void sendRenderAxis(QString& strAxis);
     void sendColorInfo(QColor& color);
