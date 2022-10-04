@@ -17,5 +17,7 @@
         <file>img/info.png</file>
         <file>img/filter1.png</file>
         <file>img/gridfilter.png</file>
+        <file>img/toLeft.png</file>
+        <file>img/toright.png</file>
     </qresource>
 </RCC>

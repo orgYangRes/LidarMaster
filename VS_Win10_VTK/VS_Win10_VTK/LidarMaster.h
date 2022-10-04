@@ -11,6 +11,8 @@
 #include "LidarMenu.h"
 #include "QVTKWindow.h"
 #include <qsharedpointer.h>
+#include <QMap>
+#include <atomic>
 class LidarMenu;
 class QVTKWindow;
 class LidarMaster : public QMainWindow
@@ -49,6 +51,8 @@ private:
     Ui::LidarMasterClass ui;
     // 主窗体属性配置
     void MainFramAttri();
+    std::atomic<int> m_nCloudIndex = 0;
+    QMap<int,pcl::PointCloud<pcl::PointXYZ>::Ptr>m_mapCloud;
 
     // 设置点云信息窗口
     void setLasInfoDock();
@@ -56,9 +60,15 @@ private:
     void showLidarData(QString& lidarFile);
 
     void showPtCloudHeightInfo();
+
+    void getPtCLoud(QString& lidarFile,pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+
+    int savePtCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr tmpCloud, const QString& saveFileName);
+    void saveCloudToMap(pcl::PointCloud<pcl::PointXYZ>::Ptr tmpCloud);
 signals:
     void sendRenderAxis(QString& strAxis);
     void sendColorInfo(QColor& color);
+    void closeFilterDialogSignal();
 private slots:
     // 关闭点云信息信号
     void isLasInfo();
@@ -72,17 +82,18 @@ private slots:
     // 工程树节点点击槽
     void treeItemClickedSlot(QTreeWidgetItem* item, int col);
 
-  
-
-    // 	接受渲染对话框槽函数
-
-
-    //刷新点云视图
-    void updateWindSlot();
-
-
     void recvRenderCoords(QString& strAxis);
 
     void recColorInfoSlot(QColor& color);
 
+    //体素滤波
+    void recvFilterVal(int type, double filterVal, QString& lasFile);
+
+    //撤销
+    void rectoLeftSlot();
+
+    //反撤销
+    void rectoRightSlot();
 };
+
+

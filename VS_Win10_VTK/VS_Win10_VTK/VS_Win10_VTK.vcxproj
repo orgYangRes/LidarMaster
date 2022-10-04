@@ -71,6 +71,9 @@
     <Link>
       <AdditionalDependencies>F:\PCL191\PCL121\3rdParty\Boost\lib\*.lib;F:\PCL191\PCL121\3rdParty\VTK\lib\*.lib;F:\PCL191\PCL121\3rdParty\FLANN\lib\*.lib;F:\PCL191\PCL121\3rdParty\OpenNI2\Lib\*.lib;F:\PCL191\PCL121\3rdParty\Qhull\lib\*.lib;LASlib.lib;pcl_common.lib;pcl_features.lib;pcl_filters.lib;pcl_io.lib;pcl_io_ply.lib;pcl_kdtree.lib;pcl_keypoints.lib;pcl_ml.lib;pcl_octree.lib;pcl_outofcore.lib;pcl_people.lib;pcl_recognition.lib;pcl_registration.lib;pcl_sample_consensus.lib;pcl_search.lib;pcl_segmentation.lib;pcl_stereo.lib;pcl_surface.lib;pcl_tracking.lib;pcl_visualization.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -101,6 +104,7 @@
   <ItemGroup>
     <ClCompile Include="LidarMenu.cpp" />
     <ClCompile Include="LidarNewPro.cpp" />
+    <ClCompile Include="PtFilterDialog.cpp" />
     <ClCompile Include="PtRenderWidget.cpp" />
     <QtRcc Include="LidarMaster.qrc" />
     <QtUic Include="LidarMaster.ui" />
@@ -108,6 +112,7 @@
     <ClCompile Include="LidarMaster.cpp" />
     <ClCompile Include="main.cpp" />
     <QtUic Include="LidarNewPro.ui" />
+    <QtUic Include="PtFilterDialog.ui" />
     <QtUic Include="PtRenderWidget.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +125,7 @@
     <QtMoc Include="PtRenderWidget.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="PtFilterDialog.h" />
     <ClInclude Include="QVTKWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

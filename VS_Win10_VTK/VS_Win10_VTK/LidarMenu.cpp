@@ -16,7 +16,11 @@ LidarMenu::LidarMenu(QWidget* parent, LidarMaster* lasMaster)
 	m_PtrNewPro->setLidarMatser(lasMaster);
 
 	m_PtrCloudRender = new PtRenderWidget(this);
-	
+
+	m_PtrFilterDialog = new PtFilterDialog(this);
+	connect(m_PtrFilterDialog, SIGNAL(sendFilterVal(int,double,QString&)), m_PtrLidarMaster, SLOT(recvFilterVal(int,double, QString&)));
+	connect(m_PtrLidarMaster, SIGNAL(closeFilterDialogSignal()), m_PtrFilterDialog, SLOT(recCloseFilterDialogSlot()));
+
 
 	connect(m_PtrCloudRender, SIGNAL(sendData(QString&)), m_PtrLidarMaster, SLOT(recvRenderCoords(QString&)));
 	connect(this, SIGNAL(sendLidarColor(QColor&)), m_PtrLidarMaster, SLOT(recColorInfoSlot(QColor&)));
@@ -48,6 +52,15 @@ void LidarMenu::menu_File()
 	m_PtrToolBar->addAction(Act_new_file);
 	file->addAction(Act_open_pro);
 	m_PtrToolBar->addAction(Act_open_pro);
+
+
+	QAction* Act_to_left = new QAction(QIcon(":/LidarMaster/img/toLeft.png"), QStringLiteral("撤销"), this);
+	QAction* Act_to_right = new QAction(QIcon(":/LidarMaster/img/toright.png"), QStringLiteral("反撤销"), this);
+	connect(Act_to_left, SIGNAL(triggered()), m_PtrLidarMaster, SLOT(rectoLeftSlot()));
+	connect(Act_to_right, SIGNAL(triggered()), m_PtrLidarMaster, SLOT(rectoRightSlot()));
+
+	m_PtrToolBar->addAction(Act_to_left);
+	m_PtrToolBar->addAction(Act_to_right);
 }
 void LidarMenu::File_new()
 {
@@ -88,17 +101,15 @@ void LidarMenu::menu_PtCloudSetup()
 void LidarMenu::menu_PtFilter()
 {
 	QAction* Act_pt_filter1 = new QAction(QIcon(":/LidarMaster/img/gridfilter.png"), QStringLiteral("体素滤波"), this);
-	connect(Act_pt_filter1, SIGNAL(triggered()), this, SLOT(showRenderDialog()));
+	connect(Act_pt_filter1, SIGNAL(triggered()), this, SLOT(showFilterDialog()));
 
-	QAction* Act_pt_filter2 = new QAction(QIcon(":/LidarMaster/img/gridfilter.png"), QStringLiteral("近似体素"), this);
-	connect(Act_pt_filter2, SIGNAL(triggered()), this, SLOT(showColorDialog()));
 
 	QAction* Act_pt_filter3 = new QAction(QIcon(":/LidarMaster/img/filter1.png"), QStringLiteral("采样滤波"), this);
-
+	connect(Act_pt_filter3, SIGNAL(triggered()), this, SLOT(showFilterDialog()));
 
 	QMenu* filterMenu = addMenu(QStringLiteral("点云滤波"));
 	filterMenu->addAction(Act_pt_filter1);
-	filterMenu->addAction(Act_pt_filter2);
+	
 	filterMenu->addAction(Act_pt_filter3);
 }
 void LidarMenu::Pro_Open()
@@ -188,5 +199,10 @@ void LidarMenu::showColorDialog()
 {
 	QColor color = QColorDialog::getColor(Qt::white,this);
 	sendLidarColor(color);
+}
+
+void LidarMenu::showFilterDialog()
+{
+	m_PtrFilterDialog->show();
 }
 

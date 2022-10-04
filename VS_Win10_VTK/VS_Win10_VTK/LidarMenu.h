@@ -11,6 +11,7 @@
 #include "PtRenderWidget.h"
 #include <qcolordialog.h>
 #include <qcolor.h>
+#include "PtFilterDialog.h"
 class LidarMaster;
 class LidarNewPro;
 class PtCloudRender;
@@ -40,6 +41,9 @@ private:
 	QPointer<LidarNewPro>m_PtrNewPro;
 	//渲染对话框
 	QPointer< PtRenderWidget> m_PtrCloudRender;
+
+	//滤波对话框
+	QPointer<PtFilterDialog>m_PtrFilterDialog;
 	
 	// 文件模块
 	void menu_File();
@@ -70,6 +74,9 @@ private slots:
 	void showRenderDialog();
 	// 显示点云颜色框
 	void showColorDialog();
+
+	//滤波对话框
+	void showFilterDialog();
 
 
 

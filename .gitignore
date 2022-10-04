@@ -34,6 +34,8 @@ data
 *.exe
 *.out
 *.app
+VS_Win10_VTK/VS_Win10_VTK/x64/Debug
+VS_Win10_VTK/VS_Win10_VTK/x64/Release
 VS_Win10_VTK/VS_Win10_VTK/x64/Release/qt_work.log
 VS_Win10_VTK/VS_Win10_VTK/x64/Release/vc142.pdb
 VS_Win10_VTK/VS_Win10_VTK/x64/Release/VS_Win10_VTK.Build.CppClean.log

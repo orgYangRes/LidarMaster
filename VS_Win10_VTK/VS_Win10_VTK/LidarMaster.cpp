@@ -5,6 +5,8 @@
 #include "vtkGenericOpenGLRenderWindow.h"
 #include "lasreader.hpp"
 #include "laswriter.hpp"
+#include <pcl/filters/voxel_grid.h>
+#include <pcl/filters/approximate_voxel_grid.h>
 LidarMaster::LidarMaster(QWidget* parent)
 	: QMainWindow(parent)
 {
@@ -47,11 +49,7 @@ LidarMaster::~LidarMaster()
 		m_MainThread = nullptr;
 	}
 }
-void LidarMaster::updateWindSlot()
-{
-	/*m_PtrQVtkWindow->update();
-	m_PtrQVtkWindow->viewer->resetCamera();*/
-}
+
 void LidarMaster::recvRenderCoords(QString& strAxis)
 {
 	if (m_Cloud&&m_Cloud->points.size() > 0)
@@ -84,6 +82,103 @@ void LidarMaster::recColorInfoSlot(QColor& color)
 	
 	
 
+}
+int LidarMaster::savePtCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr tmpCloud, const QString& saveFileName)
+{
+	int saveRes = 1;
+	if (saveFileName.endsWith(".pcd", Qt::CaseInsensitive))
+	{
+		saveRes = pcl::io::savePCDFileBinary(saveFileName.toStdString(), *tmpCloud);
+	}
+	if (saveFileName.endsWith(".ply", Qt::CaseInsensitive))
+	{
+		saveRes = pcl::io::savePLYFileBinary(saveFileName.toStdString(), *tmpCloud);
+	}
+
+	if (saveRes != 0)
+	{
+		PCL_ERROR("Error writing point cloud %s\n", saveFileName.toStdString().c_str());
+		return -1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void LidarMaster::saveCloudToMap(pcl::PointCloud<pcl::PointXYZ>::Ptr tmpCloud)
+{
+	int index = 0;
+	if (m_mapCloud.isEmpty())
+	{
+		m_mapCloud.insert(0, tmpCloud);
+		index = 0;
+	}
+	else
+	{
+		auto mm = std::minmax_element(m_mapCloud.keys().begin(), m_mapCloud.keys().end());
+		m_mapCloud.insert(*mm.first +1, tmpCloud);
+		index = *mm.first + 1;
+	}
+	m_nCloudIndex = index;
+}
+void LidarMaster::recvFilterVal(int type, double filterVal,QString& lasFile)
+{
+	pcl::PointCloud<pcl::PointXYZ>::Ptr tmpCloud;
+	tmpCloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
+
+	getPtCLoud(lasFile, tmpCloud);
+	
+	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_out(new pcl::PointCloud<pcl::PointXYZ>());
+	QString saveFileName = QFileDialog::getSaveFileName(this,QStringLiteral("保存滤波结果"), QStringLiteral("./result.pcd"), QStringLiteral("点云数据(*.ply *.pcd)"));
+	
+
+	if (saveFileName.isEmpty()) return;
+	//体素
+	if (type == 1)
+	{
+		pcl::VoxelGrid<pcl::PointXYZ> voxel_Grid;
+		voxel_Grid.setLeafSize(filterVal, filterVal, filterVal);
+		voxel_Grid.setInputCloud(tmpCloud);
+		voxel_Grid.filter(*cloud_out);
+	}
+	// 近似体素
+	else if (type == 2)
+	{
+		pcl::ApproximateVoxelGrid<pcl::PointXYZ> appVoxel_Grid;
+		appVoxel_Grid.setLeafSize(filterVal, filterVal, filterVal);
+		appVoxel_Grid.setInputCloud(tmpCloud);
+		appVoxel_Grid.filter(*cloud_out);
+	}
+	int saveRes = 1;
+	saveRes = savePtCloud(cloud_out, saveFileName);
+
+	saveCloudToMap(cloud_out);
+
+	if (saveRes != 0)
+	{
+		PCL_ERROR("Error writing point cloud %s\n", saveFileName.toStdString().c_str());
+		return;
+	}
+	else
+	{
+		QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("滤波完成"), QStringLiteral("关闭"));
+		emit closeFilterDialogSignal();
+	}
+}
+void LidarMaster::rectoLeftSlot()
+{
+	if (m_mapCloud.size() <= 1)
+		return;
+	if (m_nCloudIndex.load() == 0)
+		return;
+}
+void LidarMaster::rectoRightSlot()
+{
+	if (m_mapCloud.size() <= 1)
+		return;
+	if (m_nCloudIndex.load() == 0)
+		return;
 }
 void LidarMaster::MainFramAttri()
 {
@@ -242,6 +337,9 @@ void LidarMaster::treeItemClickedSlot(QTreeWidgetItem* item, int col)
 		}
 	}
 }
+
+
+
 void LidarMaster::showLidarData(QString& lidarFile)
 {
 
@@ -261,54 +359,18 @@ void LidarMaster::showLidarData(QString& lidarFile)
         return;
     }
    
+	getPtCLoud(lidarFile, m_Cloud);
 
-    if (QFileInfo(lidarFile).suffix().contains("pcd"))
-    {
-        pcl::PCDReader reader;
-        reader.read(lidarFile.toStdString(), *m_Cloud);
-		m_PtrLasInfoTree->topLevelItem(0)->child(0)->setText(1, QString::number(m_Cloud->points.size()));
-        
-        m_PtrLasInfoTree->topLevelItem(0)->child(1)->setText(1, QStringLiteral("pcd"));
-        if (m_Cloud->height == 1)
-        {
-            m_PtrLasInfoTree->topLevelItem(0)->child(2)->setText(1, "0");
-        }
-        else
-        {
-            m_PtrLasInfoTree->topLevelItem(0)->child(2)->setText(1, "1");
-        }
-    }
-    else if (QFileInfo(lidarFile).suffix().contains("ply"))
-    {
-        pcl::PolygonMesh meshData;//读取原始数据
-        pcl::io::loadPolygonFile(lidarFile.toStdString(), meshData);
-        pcl::fromPCLPointCloud2(meshData.cloud, *m_Cloud);//将obj数据转换为点云数据
-        m_PtrLasInfoTree->topLevelItem(0)->child(0)->setText(1, QString::number(m_Cloud->points.size()));
-       m_PtrLasInfoTree->topLevelItem(0)->child(1)->setText(1, QStringLiteral("ply"));
-    }
-    else if (QFileInfo(lidarFile).suffix().contains("las"))
-    {
-        LASreadOpener lasreadopener;
-        QByteArray ba = lidarFile.toLatin1();
-        lasreadopener.set_file_name(ba.data());
-        LASreader* lasreader = lasreadopener.open(false);
-        size_t ct = lasreader->header.number_of_point_records;
-        m_Cloud->points.resize(ct);
-        m_Cloud->width = 1;
-        m_Cloud->height = ct;
-        m_Cloud->is_dense = false;
-        size_t i = 0;
-        while (lasreader->read_point() && i < ct)
-        {
-            m_Cloud->points[i].x = lasreader->point.get_x();
-            m_Cloud->points[i].y = lasreader->point.get_y();
-            m_Cloud->points[i].z = lasreader->point.get_z();
-            ++i;
-        }
-        m_PtrLasInfoTree->topLevelItem(0)->child(1)->setText(1, QStringLiteral("las"));
-    }
-    m_PtrLasInfoTree->topLevelItem(0)->child(0)->setText(1, QString::number(m_Cloud->points.size()));
-
+	m_PtrLasInfoTree->topLevelItem(0)->child(0)->setText(1, QString::number(m_Cloud->points.size()));
+	m_PtrLasInfoTree->topLevelItem(0)->child(1)->setText(1, QFileInfo(lidarFile).suffix());
+	if (m_Cloud->height == 1)
+	{
+		m_PtrLasInfoTree->topLevelItem(0)->child(2)->setText(1, QStringLiteral("无序点云"));
+	}
+	else
+	{
+		m_PtrLasInfoTree->topLevelItem(0)->child(2)->setText(1, QStringLiteral("有序点云"));
+	}
 	if (m_MainThread != nullptr)
 		m_MainThread->join();
 	m_MainThread.reset(new std::thread([=] {showPtCloudHeightInfo(); }));
@@ -322,6 +384,8 @@ void LidarMaster::showLidarData(QString& lidarFile)
     viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "cloud");
     viewer->resetCamera();
 	m_LidarWidget->update();
+
+	saveCloudToMap(m_Cloud);
 }
 
 void LidarMaster::showPtCloudHeightInfo()
@@ -342,6 +406,41 @@ void LidarMaster::showPtCloudHeightInfo()
 		m_PtrLasInfoTree->topLevelItem(1)->child(0)->setText(1, QString::number(maxHeight));
 		m_PtrLasInfoTree->topLevelItem(1)->child(1)->setText(1, QString::number(minHeight));
 		m_PtrLasInfoTree->topLevelItem(1)->child(2)->setText(1, QString::number(aveHeight));
+	}
+}
+
+void LidarMaster::getPtCLoud(QString& lidarFile,pcl::PointCloud<pcl::PointXYZ>::Ptr cloud)
+{
+	if (QFileInfo(lidarFile).suffix().contains("pcd"))
+	{
+		pcl::PCDReader reader;
+		reader.read(lidarFile.toStdString(), *cloud);
+	}
+	else if (QFileInfo(lidarFile).suffix().contains("ply"))
+	{
+		pcl::PolygonMesh meshData;//读取原始数据
+		pcl::io::loadPolygonFile(lidarFile.toStdString(), meshData);
+		pcl::fromPCLPointCloud2(meshData.cloud, *cloud);//将obj数据转换为点云数据
+	}
+	else if (QFileInfo(lidarFile).suffix().contains("las"))
+	{
+		LASreadOpener lasreadopener;
+		QByteArray ba = lidarFile.toLatin1();
+		lasreadopener.set_file_name(ba.data());
+		LASreader* lasreader = lasreadopener.open(false);
+		size_t ct = lasreader->header.number_of_point_records;
+		cloud->points.resize(ct);
+		cloud->width = 1;
+		cloud->height = ct;
+		cloud->is_dense = false;
+		size_t i = 0;
+		while (lasreader->read_point() && i < ct)
+		{
+			cloud->points[i].x = lasreader->point.get_x();
+			cloud->points[i].y = lasreader->point.get_y();
+			cloud->points[i].z = lasreader->point.get_z();
+			++i;
+		}
 	}
 }
 
