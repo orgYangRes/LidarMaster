@@ -42,3 +42,9 @@ VS_Win10_VTK/VS_Win10_VTK/x64/Release/VS_Win10_VTK.Build.CppClean.log
 VS_Win10_VTK/VS_Win10_VTK/x64/Release/VS_Win10_VTK.log
 VS_Win10_VTK/VS_Win10_VTK/x64/Release/VS_Win10_VTK.tlog/CL.command.1.tlog
 VS_Win10_VTK/VS_Win10_VTK/x64/Release/VS_Win10_VTK.log
+*.log
+*.log
+*.pdb
+*.tlog
+*.tlog
+*.tlog
