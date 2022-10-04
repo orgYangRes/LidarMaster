@@ -91,5 +91,8 @@
     <ClInclude Include="QVTKWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sufixName.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

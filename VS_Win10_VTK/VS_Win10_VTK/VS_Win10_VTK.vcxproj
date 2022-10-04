@@ -125,6 +125,7 @@
     <QtMoc Include="PtRenderWidget.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="sufixName.h" />
     <QtMoc Include="PtFilterDialog.h" />
     <ClInclude Include="QVTKWindow.h" />
   </ItemGroup>

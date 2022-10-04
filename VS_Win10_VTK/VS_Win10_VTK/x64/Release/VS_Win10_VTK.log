@@ -1,8 +1,2 @@
-﻿  LidarMenu.cpp
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\Half.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\BFloat16.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-F:\PCL191\PCL121\3rdParty\Eigen\eigen3\Eigen\src\Core\arch\Default\GenericPacketMathFunctions.h(676,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-F:\PCL191\PCL121\include\pcl-1.12\pcl\io\io.h(41,1): warning C4081: 应输入“标识符”；找到“字符串”
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\interactor_style.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-F:\PCL191\PCL121\include\pcl-1.12\pcl\visualization\pcl_visualizer.h(1605,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+﻿  Reading Qt configuration (F:/QT5142/5.14.2/msvc2017_64/bin/qmake)
   VS_Win10_VTK.vcxproj -> D:\Lidar_Master\LidarMaster\VS_Win10_VTK\x64\Release\VS_Win10_VTK.exe

@@ -48,3 +48,5 @@ VS_Win10_VTK/VS_Win10_VTK/x64/Release/VS_Win10_VTK.log
 *.tlog
 *.tlog
 *.tlog
+*.pcd
+*.tlog
