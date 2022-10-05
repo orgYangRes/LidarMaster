@@ -105,6 +105,7 @@
     <ClCompile Include="LidarMenu.cpp" />
     <ClCompile Include="LidarNewPro.cpp" />
     <ClCompile Include="PtFilterDialog.cpp" />
+    <ClCompile Include="PtGridFilterDialog.cpp" />
     <ClCompile Include="PtRenderWidget.cpp" />
     <QtRcc Include="LidarMaster.qrc" />
     <QtUic Include="LidarMaster.ui" />
@@ -113,6 +114,7 @@
     <ClCompile Include="main.cpp" />
     <QtUic Include="LidarNewPro.ui" />
     <QtUic Include="PtFilterDialog.ui" />
+    <QtUic Include="PtGridFilterDialog.ui" />
     <QtUic Include="PtRenderWidget.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -125,6 +127,7 @@
     <QtMoc Include="PtRenderWidget.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="PtGridFilterDialog.h" />
     <ClInclude Include="sufixName.h" />
     <QtMoc Include="PtFilterDialog.h" />
     <ClInclude Include="QVTKWindow.h" />

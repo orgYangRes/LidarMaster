@@ -61,6 +61,9 @@
     <ClCompile Include="PtFilterDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PtGridFilterDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LidarMenu.h">
@@ -75,6 +78,9 @@
     <QtMoc Include="PtFilterDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="PtGridFilterDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="LidarNewPro.ui">
@@ -84,6 +90,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="PtFilterDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="PtGridFilterDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

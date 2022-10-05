@@ -70,6 +70,8 @@ signals:
     void sendRenderAxis(QString& strAxis);
     void sendColorInfo(QColor& color);
     void closeFilterDialogSignal();
+
+    void closeGridFilterDialogSignal();
 private slots:
     // 关闭点云信息信号
     void isLasInfo();
@@ -95,6 +97,9 @@ private slots:
 
     //反撤销
     void rectoRightSlot();
+
+    //按点采样
+    void recvGridAndType(int gridVal, int type);
 };
 
 

@@ -7,6 +7,9 @@
 #include "laswriter.hpp"
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/filters/approximate_voxel_grid.h>
+#include <pcl/filters/random_sample.h>
+#include <pcl/filters/uniform_sampling.h>
+#include <pcl/filters/statistical_outlier_removal.h>
 LidarMaster::LidarMaster(QWidget* parent)
 	: QMainWindow(parent)
 {
@@ -193,6 +196,72 @@ void LidarMaster::rectoRightSlot()
 		return;
 	if (m_nCloudIndex.load() == 0)
 		return;
+}
+void LidarMaster::recvGridAndType(int gridVal, int type)
+{
+	if (m_mapCloud.size() > 0)
+	{
+		pcl::PointCloud<pcl::PointXYZ>::Ptr tmpCloud;
+		tmpCloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
+		getPtCLoud(m_mapCloud[m_nCloudIndex], tmpCloud);
+		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_out(new pcl::PointCloud<pcl::PointXYZ>());
+		QString saveFileName = QFileDialog::getSaveFileName(this, QStringLiteral("保存滤波结果"), QStringLiteral("./result.pcd"), QStringLiteral("点云数据(*.ply *.pcd)"));
+		if (saveFileName.isEmpty()) return;
+		QString outFileName = "";
+
+		if (0 == type)
+		{
+			pcl::RandomSample<pcl::PointXYZ> res;
+			res.setInputCloud(tmpCloud);
+			res.setSample(gridVal);
+			res.filter(*cloud_out);
+			outFileName = "rs";
+		}
+		else if (1 == type)
+		{
+			pcl::UniformSampling<pcl::PointXYZ> uni;
+			uni.setRadiusSearch(gridVal);
+			uni.setInputCloud(tmpCloud);
+			uni.filter(*cloud_out);
+			outFileName = "us";
+		}
+		else if (2 == type)
+		{
+			pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
+			sor.setInputCloud(tmpCloud);
+			sor.setMeanK(gridVal);
+			sor.setStddevMulThresh(1);
+			
+			sor.filter(*cloud_out);
+			outFileName = "sor";
+		}
+
+		int saveRes = 1;
+		saveFileName = QFileInfo(saveFileName).absolutePath() + "/" + QFileInfo(saveFileName).baseName() + "_" + outFileName + "." + QFileInfo(saveFileName).suffix();
+		saveRes = savePtCloud(cloud_out, saveFileName);
+
+		saveCloudToMap(saveFileName);
+
+		if (saveRes != 0)
+		{
+			PCL_ERROR("Error writing point cloud %s\n", saveFileName.toStdString().c_str());
+			return;
+		}
+		else
+		{
+			QTreeWidgetItem* item11 = new QTreeWidgetItem();
+			item11->setIcon(0, QIcon(":/LidarMaster/img/las.png"));
+			item11->setCheckState(0, Qt::Unchecked);
+			item11->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsAutoTristate);
+			item11->setText(0, QFileInfo(saveFileName).fileName());
+			item11->setData(0, Qt::UserRole + 1, saveFileName);
+			m_PtrProTree->topLevelItem(0)->addChild(item11);
+			QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("滤波完成"), QStringLiteral("关闭"));
+			emit closeGridFilterDialogSignal();
+		}
+	}
+
+
 }
 void LidarMaster::MainFramAttri()
 {

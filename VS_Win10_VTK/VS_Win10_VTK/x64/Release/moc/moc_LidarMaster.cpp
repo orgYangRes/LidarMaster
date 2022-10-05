@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_LidarMaster_t {
-    QByteArrayData data[24];
-    char stringdata0[275];
+    QByteArrayData data[27];
+    char stringdata0[327];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -41,31 +41,35 @@ QT_MOC_LITERAL(5, 45, 13), // "sendColorInfo"
 QT_MOC_LITERAL(6, 59, 7), // "QColor&"
 QT_MOC_LITERAL(7, 67, 5), // "color"
 QT_MOC_LITERAL(8, 73, 23), // "closeFilterDialogSignal"
-QT_MOC_LITERAL(9, 97, 9), // "isLasInfo"
-QT_MOC_LITERAL(10, 107, 9), // "isProInfo"
-QT_MOC_LITERAL(11, 117, 11), // "isOtherInfo"
-QT_MOC_LITERAL(12, 129, 19), // "treeItemClickedSlot"
-QT_MOC_LITERAL(13, 149, 16), // "QTreeWidgetItem*"
-QT_MOC_LITERAL(14, 166, 4), // "item"
-QT_MOC_LITERAL(15, 171, 3), // "col"
-QT_MOC_LITERAL(16, 175, 16), // "recvRenderCoords"
-QT_MOC_LITERAL(17, 192, 16), // "recColorInfoSlot"
-QT_MOC_LITERAL(18, 209, 13), // "recvFilterVal"
-QT_MOC_LITERAL(19, 223, 4), // "type"
-QT_MOC_LITERAL(20, 228, 9), // "filterVal"
-QT_MOC_LITERAL(21, 238, 7), // "lasFile"
-QT_MOC_LITERAL(22, 246, 13), // "rectoLeftSlot"
-QT_MOC_LITERAL(23, 260, 14) // "rectoRightSlot"
+QT_MOC_LITERAL(9, 97, 27), // "closeGridFilterDialogSignal"
+QT_MOC_LITERAL(10, 125, 9), // "isLasInfo"
+QT_MOC_LITERAL(11, 135, 9), // "isProInfo"
+QT_MOC_LITERAL(12, 145, 11), // "isOtherInfo"
+QT_MOC_LITERAL(13, 157, 19), // "treeItemClickedSlot"
+QT_MOC_LITERAL(14, 177, 16), // "QTreeWidgetItem*"
+QT_MOC_LITERAL(15, 194, 4), // "item"
+QT_MOC_LITERAL(16, 199, 3), // "col"
+QT_MOC_LITERAL(17, 203, 16), // "recvRenderCoords"
+QT_MOC_LITERAL(18, 220, 16), // "recColorInfoSlot"
+QT_MOC_LITERAL(19, 237, 13), // "recvFilterVal"
+QT_MOC_LITERAL(20, 251, 4), // "type"
+QT_MOC_LITERAL(21, 256, 9), // "filterVal"
+QT_MOC_LITERAL(22, 266, 7), // "lasFile"
+QT_MOC_LITERAL(23, 274, 13), // "rectoLeftSlot"
+QT_MOC_LITERAL(24, 288, 14), // "rectoRightSlot"
+QT_MOC_LITERAL(25, 303, 15), // "recvGridAndType"
+QT_MOC_LITERAL(26, 319, 7) // "gridVal"
 
     },
     "LidarMaster\0sendRenderAxis\0\0QString&\0"
     "strAxis\0sendColorInfo\0QColor&\0color\0"
-    "closeFilterDialogSignal\0isLasInfo\0"
+    "closeFilterDialogSignal\0"
+    "closeGridFilterDialogSignal\0isLasInfo\0"
     "isProInfo\0isOtherInfo\0treeItemClickedSlot\0"
     "QTreeWidgetItem*\0item\0col\0recvRenderCoords\0"
     "recColorInfoSlot\0recvFilterVal\0type\0"
     "filterVal\0lasFile\0rectoLeftSlot\0"
-    "rectoRightSlot"
+    "rectoRightSlot\0recvGridAndType\0gridVal"
 };
 #undef QT_MOC_LITERAL
 
@@ -75,44 +79,48 @@ static const uint qt_meta_data_LidarMaster[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      14,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       3,       // signalCount
+       4,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   74,    2, 0x06 /* Public */,
-       5,    1,   77,    2, 0x06 /* Public */,
-       8,    0,   80,    2, 0x06 /* Public */,
+       1,    1,   84,    2, 0x06 /* Public */,
+       5,    1,   87,    2, 0x06 /* Public */,
+       8,    0,   90,    2, 0x06 /* Public */,
+       9,    0,   91,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       9,    0,   81,    2, 0x08 /* Private */,
-      10,    0,   82,    2, 0x08 /* Private */,
-      11,    0,   83,    2, 0x08 /* Private */,
-      12,    2,   84,    2, 0x08 /* Private */,
-      16,    1,   89,    2, 0x08 /* Private */,
-      17,    1,   92,    2, 0x08 /* Private */,
-      18,    3,   95,    2, 0x08 /* Private */,
-      22,    0,  102,    2, 0x08 /* Private */,
-      23,    0,  103,    2, 0x08 /* Private */,
+      10,    0,   92,    2, 0x08 /* Private */,
+      11,    0,   93,    2, 0x08 /* Private */,
+      12,    0,   94,    2, 0x08 /* Private */,
+      13,    2,   95,    2, 0x08 /* Private */,
+      17,    1,  100,    2, 0x08 /* Private */,
+      18,    1,  103,    2, 0x08 /* Private */,
+      19,    3,  106,    2, 0x08 /* Private */,
+      23,    0,  113,    2, 0x08 /* Private */,
+      24,    0,  114,    2, 0x08 /* Private */,
+      25,    2,  115,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void, 0x80000000 | 6,    7,
+    QMetaType::Void,
     QMetaType::Void,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 13, QMetaType::Int,   14,   15,
+    QMetaType::Void, 0x80000000 | 14, QMetaType::Int,   15,   16,
     QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void, 0x80000000 | 6,    7,
-    QMetaType::Void, QMetaType::Int, QMetaType::Double, 0x80000000 | 3,   19,   20,   21,
+    QMetaType::Void, QMetaType::Int, QMetaType::Double, 0x80000000 | 3,   20,   21,   22,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   26,   20,
 
        0        // eod
 };
@@ -126,15 +134,17 @@ void LidarMaster::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 0: _t->sendRenderAxis((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 1: _t->sendColorInfo((*reinterpret_cast< QColor(*)>(_a[1]))); break;
         case 2: _t->closeFilterDialogSignal(); break;
-        case 3: _t->isLasInfo(); break;
-        case 4: _t->isProInfo(); break;
-        case 5: _t->isOtherInfo(); break;
-        case 6: _t->treeItemClickedSlot((*reinterpret_cast< QTreeWidgetItem*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 7: _t->recvRenderCoords((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 8: _t->recColorInfoSlot((*reinterpret_cast< QColor(*)>(_a[1]))); break;
-        case 9: _t->recvFilterVal((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< double(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
-        case 10: _t->rectoLeftSlot(); break;
-        case 11: _t->rectoRightSlot(); break;
+        case 3: _t->closeGridFilterDialogSignal(); break;
+        case 4: _t->isLasInfo(); break;
+        case 5: _t->isProInfo(); break;
+        case 6: _t->isOtherInfo(); break;
+        case 7: _t->treeItemClickedSlot((*reinterpret_cast< QTreeWidgetItem*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 8: _t->recvRenderCoords((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 9: _t->recColorInfoSlot((*reinterpret_cast< QColor(*)>(_a[1]))); break;
+        case 10: _t->recvFilterVal((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< double(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
+        case 11: _t->rectoLeftSlot(); break;
+        case 12: _t->rectoRightSlot(); break;
+        case 13: _t->recvGridAndType((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -157,6 +167,13 @@ void LidarMaster::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
             using _t = void (LidarMaster::*)();
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&LidarMaster::closeFilterDialogSignal)) {
                 *result = 2;
+                return;
+            }
+        }
+        {
+            using _t = void (LidarMaster::*)();
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&LidarMaster::closeGridFilterDialogSignal)) {
+                *result = 3;
                 return;
             }
         }
@@ -192,13 +209,13 @@ int LidarMaster::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 14;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 14)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 12;
+        _id -= 14;
     }
     return _id;
 }
@@ -221,6 +238,12 @@ void LidarMaster::sendColorInfo(QColor & _t1)
 void LidarMaster::closeFilterDialogSignal()
 {
     QMetaObject::activate(this, &staticMetaObject, 2, nullptr);
+}
+
+// SIGNAL 3
+void LidarMaster::closeGridFilterDialogSignal()
+{
+    QMetaObject::activate(this, &staticMetaObject, 3, nullptr);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

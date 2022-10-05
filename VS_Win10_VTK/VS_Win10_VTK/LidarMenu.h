@@ -12,6 +12,7 @@
 #include <qcolordialog.h>
 #include <qcolor.h>
 #include "PtFilterDialog.h"
+#include "PtGridFilterDialog.h"
 class LidarMaster;
 class LidarNewPro;
 class PtCloudRender;
@@ -44,6 +45,9 @@ private:
 
 	//滤波对话框
 	QPointer<PtFilterDialog>m_PtrFilterDialog;
+
+	//按点采样对话框
+	QPointer<PtGridFilterDialog>m_PtGridFilterDialog;
 	
 	// 文件模块
 	void menu_File();
@@ -78,6 +82,9 @@ private slots:
 	//滤波对话框
 	void showFilterDialog();
 
+
+	// 下采样对话框
+	void showGridFilterDialog();
 
 
 };

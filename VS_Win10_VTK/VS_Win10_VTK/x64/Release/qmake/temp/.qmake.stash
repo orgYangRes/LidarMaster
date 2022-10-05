@@ -5,39 +5,3 @@ QMAKE_CXX.COMPILER_MACROS = \
     QT_COMPILER_STDCXX \
     QMAKE_MSC_VER \
     QMAKE_MSC_FULL_VER
-QMAKE_CXX.INCDIRS = \
-    F:\\PCL191\\PCL121\\3rdParty\\VTK\\include \
-    F:\\PCL191\\PCL121\\3rdParty\\VTK\\include\\vtk-9.1 \
-    F:\\PCL191\\PCL121\\include\\pcl-1.12 \
-    F:\\PCL191\\PCL121\\3rdParty\\Boost\\include\\boost-1_78 \
-    F:\\PCL191\\PCL121\\3rdParty\\Eigen\\eigen3 \
-    F:\\PCL191\\PCL121\\3rdParty\\FLANN\\include \
-    F:\\PCL191\\PCL121\\3rdParty\\Qhull\\include \
-    F:\\PCL191\\PCL121\\3rdParty\\OpenNI2\\Include \
-    F:\\PCL191\\laslib\\LASlib\\inc \
-    F:\\PCL191\\laslib\\LASzip\\src \
-    F:\\VS2019\\VC\\Tools\\MSVC\\14.29.30133\\include \
-    F:\\VS2019\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include \
-    F:\\VS2019\\VC\\Auxiliary\\VS\\include \
-    "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.17763.0\\ucrt" \
-    F:\\VS2019\\VC\\Auxiliary\\VS\\UnitTest\\include \
-    "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.17763.0\\um" \
-    "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.17763.0\\shared" \
-    "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.17763.0\\winrt" \
-    "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.17763.0\\cppwinrt" \
-    "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\Include\\um"
-QMAKE_CXX.LIBDIRS = \
-    F:\\PCL191\\PCL121\\3rdParty\\VTK\\lib \
-    F:\\PCL191\\PCL121\\lib \
-    F:\\PCL191\\PCL121\\3rdParty\\Boost\\lib \
-    F:\\PCL191\\PCL121\\3rdParty\\FLANN\\lib \
-    F:\\PCL191\\PCL121\\3rdParty\\OpenNI2\\Lib \
-    F:\\PCL191\\PCL121\\3rdParty\\Qhull\\lib \
-    F:\\PCL191\\laslib\\LASlib\\lib \
-    F:\\VS2019\\VC\\Tools\\MSVC\\14.29.30133\\lib\\x64 \
-    F:\\VS2019\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\lib\\x64 \
-    F:\\VS2019\\VC\\Auxiliary\\VS\\lib\\x64 \
-    "C:\\Program Files (x86)\\Windows Kits\\10\\lib\\10.0.17763.0\\ucrt\\x64" \
-    F:\\VS2019\\VC\\Auxiliary\\VS\\UnitTest\\lib \
-    "C:\\Program Files (x86)\\Windows Kits\\10\\lib\\10.0.17763.0\\um\\x64" \
-    "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\lib\\um\\x64"

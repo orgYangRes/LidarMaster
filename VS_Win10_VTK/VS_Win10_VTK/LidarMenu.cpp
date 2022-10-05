@@ -21,6 +21,9 @@ LidarMenu::LidarMenu(QWidget* parent, LidarMaster* lasMaster)
 	connect(m_PtrFilterDialog, SIGNAL(sendFilterVal(int,double,QString&)), m_PtrLidarMaster, SLOT(recvFilterVal(int,double, QString&)));
 	connect(m_PtrLidarMaster, SIGNAL(closeFilterDialogSignal()), m_PtrFilterDialog, SLOT(recCloseFilterDialogSlot()));
 
+	m_PtGridFilterDialog = new PtGridFilterDialog(this);
+	connect(m_PtGridFilterDialog, SIGNAL(sendGridAndType(int, int)), m_PtrLidarMaster, SLOT(recvGridAndType(int, int)));
+	connect(m_PtrLidarMaster, SIGNAL(closeGridFilterDialogSignal), m_PtGridFilterDialog, SLOT(closeDialog));
 
 	connect(m_PtrCloudRender, SIGNAL(sendData(QString&)), m_PtrLidarMaster, SLOT(recvRenderCoords(QString&)));
 	connect(this, SIGNAL(sendLidarColor(QColor&)), m_PtrLidarMaster, SLOT(recColorInfoSlot(QColor&)));
@@ -105,7 +108,7 @@ void LidarMenu::menu_PtFilter()
 
 
 	QAction* Act_pt_filter3 = new QAction(QIcon(":/LidarMaster/img/filter1.png"), QStringLiteral("²ÉÑùÂË²¨"), this);
-	connect(Act_pt_filter3, SIGNAL(triggered()), this, SLOT(showFilterDialog()));
+	connect(Act_pt_filter3, SIGNAL(triggered()), this, SLOT(showGridFilterDialog()));
 
 	QMenu* filterMenu = addMenu(QStringLiteral("µãÔÆÂË²¨"));
 	filterMenu->addAction(Act_pt_filter1);
@@ -204,5 +207,10 @@ void LidarMenu::showColorDialog()
 void LidarMenu::showFilterDialog()
 {
 	m_PtrFilterDialog->show();
+}
+
+void LidarMenu::showGridFilterDialog()
+{
+	m_PtGridFilterDialog->show();
 }
 
