@@ -66,12 +66,18 @@ private:
     int savePtCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr tmpCloud, const QString& saveFileName);
     int saveCloudToMap(QString& lasFile);
     int getIndex(QString& file);
+
+    void addItems(const QString& saveFileName);
 signals:
     void sendRenderAxis(QString& strAxis);
     void sendColorInfo(QColor& color);
     void closeFilterDialogSignal();
 
     void closeGridFilterDialogSignal();
+
+    void closeSIFTDialog();
+
+    void closeHarrisDialog();
 private slots:
     // 关闭点云信息信号
     void isLasInfo();
@@ -100,6 +106,12 @@ private slots:
 
     //按点采样
     void recvGridAndType(int gridVal, int type);
+
+    //SIFT
+    void recvSIFTval(float std, int level, int num, float val);
+
+    // Harris
+    void recvHarrisval(float normal,float check,float thr);
 };
 
 

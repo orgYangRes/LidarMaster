@@ -13,6 +13,8 @@
 #include <qcolor.h>
 #include "PtFilterDialog.h"
 #include "PtGridFilterDialog.h"
+#include "PtKeyPointSIFT.h"
+#include "PtKeyPointHarris.h"
 class LidarMaster;
 class LidarNewPro;
 class PtCloudRender;
@@ -48,6 +50,12 @@ private:
 
 	//按点采样对话框
 	QPointer<PtGridFilterDialog>m_PtGridFilterDialog;
+
+	//SIFT关键点显示对话框
+	QPointer<PtKeyPointSIFT>m_PtSIFTKeyPoint;
+
+	//Harris关键点显示对话框
+	QPointer<PtKeyPointHarris>m_PtKeyPointHarris;
 	
 	// 文件模块
 	void menu_File();
@@ -57,6 +65,21 @@ private:
 	void menu_PtCloudSetup();
 	//点云滤波
 	void menu_PtFilter();
+
+	// 关键点显示
+	void menu_showKeyPt();
+
+	//点云配准
+	void menu_registPt();
+
+	//点云分割
+	void menu_ClipPt();
+
+	//点云重建
+	void menu_reBuild();
+
+	//帮助与关于
+	void menu_about();
 
 signals:
 	void sendLidarColor(QColor& color);
@@ -81,8 +104,11 @@ private slots:
 
 	//滤波对话框
 	void showFilterDialog();
+	// 关键点显示
+	void showKeypoint();
 
-
+	// 关键点显示
+	void  showHarrisKeypoint();
 	// 下采样对话框
 	void showGridFilterDialog();
 

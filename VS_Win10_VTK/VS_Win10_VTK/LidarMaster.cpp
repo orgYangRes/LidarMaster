@@ -10,6 +10,9 @@
 #include <pcl/filters/random_sample.h>
 #include <pcl/filters/uniform_sampling.h>
 #include <pcl/filters/statistical_outlier_removal.h>
+#include <pcl/keypoints/harris_3d.h>
+#include <pcl/keypoints/sift_keypoint.h>
+#include <pcl/features/normal_3d.h>
 LidarMaster::LidarMaster(QWidget* parent)
 	: QMainWindow(parent)
 {
@@ -172,14 +175,7 @@ void LidarMaster::recvFilterVal(int type, double filterVal,QString& lasFile)
 	}
 	else
 	{
-		QTreeWidgetItem* item11 = new QTreeWidgetItem();
-		item11->setIcon(0, QIcon(":/LidarMaster/img/las.png"));
-		item11->setCheckState(0, Qt::Unchecked);
-		item11->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsAutoTristate);
-		item11->setText(0, QFileInfo(saveFileName).fileName());
-		item11->setData(0, Qt::UserRole + 1, saveFileName);
-		m_PtrProTree->topLevelItem(0)->addChild(item11);
-		QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("滤波完成"), QStringLiteral("关闭"));
+		addItems(saveFileName);	
 		emit closeFilterDialogSignal();
 	}
 }
@@ -249,14 +245,7 @@ void LidarMaster::recvGridAndType(int gridVal, int type)
 		}
 		else
 		{
-			QTreeWidgetItem* item11 = new QTreeWidgetItem();
-			item11->setIcon(0, QIcon(":/LidarMaster/img/las.png"));
-			item11->setCheckState(0, Qt::Unchecked);
-			item11->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsAutoTristate);
-			item11->setText(0, QFileInfo(saveFileName).fileName());
-			item11->setData(0, Qt::UserRole + 1, saveFileName);
-			m_PtrProTree->topLevelItem(0)->addChild(item11);
-			QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("滤波完成"), QStringLiteral("关闭"));
+			addItems(saveFileName);
 			emit closeGridFilterDialogSignal();
 		}
 	}
@@ -581,4 +570,116 @@ void LidarMaster::isLasInfo()
 	{
 		m_PtrMenu->m_isShowLasInfoAct->setIcon(QIcon(":/LidarMaster/img/show.png"));
 	}
+}
+void LidarMaster::recvSIFTval(float std, int level, int num, float val)
+{
+	if (m_mapCloud.size() > 0)
+	{
+		QString outFileName = "sift";
+		pcl::PointCloud<pcl::PointXYZ>::Ptr tmpCloud;
+		tmpCloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
+		getPtCLoud(m_mapCloud[m_nCloudIndex], tmpCloud);
+
+		pcl::PointCloud<pcl::PointXYZI>::Ptr tmpCloud1;
+		tmpCloud1.reset(new pcl::PointCloud<pcl::PointXYZI>);
+		pcl::copyPointCloud(*tmpCloud, *tmpCloud1);
+
+		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_out(new pcl::PointCloud<pcl::PointXYZ>());
+		pcl::SIFTKeypoint<pcl::PointXYZI, pcl::PointWithScale> sift;
+		pcl::PointCloud<pcl::PointWithScale>result;
+		pcl::search::KdTree<pcl::PointXYZI>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZI>());
+		sift.setSearchMethod(tree);
+		sift.setScales(std,level, num);
+		sift.setMinimumContrast(val);
+		sift.setInputCloud(tmpCloud1);
+		sift.compute(result);
+
+		pcl::copyPointCloud(result ,*cloud_out);
+
+		QString saveFileName = QFileDialog::getSaveFileName(this, QStringLiteral("保存结果"), QStringLiteral("./result.pcd"), QStringLiteral("点云数据(*.ply *.pcd)"));
+		if (saveFileName.isEmpty()) return;
+		
+
+		int saveRes = 1;
+		saveFileName = QFileInfo(saveFileName).absolutePath() + "/" + QFileInfo(saveFileName).baseName() + "_" + outFileName + "." + QFileInfo(saveFileName).suffix();
+		saveRes = savePtCloud(cloud_out, saveFileName);
+
+		saveCloudToMap(saveFileName);
+
+		if (saveRes != 0)
+		{
+			PCL_ERROR("Error writing point cloud %s\n", saveFileName.toStdString().c_str());
+			return;
+		}
+		else
+		{
+			addItems(saveFileName);
+			emit closeSIFTDialog();
+		}
+
+	}
+}
+void LidarMaster::recvHarrisval(float normal, float check, float thr)
+{
+	if (m_mapCloud.size() > 0)
+	{
+		QString outFileName = "sift";
+		pcl::PointCloud<pcl::PointXYZ>::Ptr tmpCloud;
+		tmpCloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
+		getPtCLoud(m_mapCloud[m_nCloudIndex], tmpCloud);
+
+
+
+		pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_out(new pcl::PointCloud<pcl::PointXYZ>());
+		pcl::HarrisKeypoint3D<pcl::PointXYZ, pcl::PointXYZI> harris;
+		pcl::PointCloud<pcl::PointXYZI>::Ptr harrisPt(new pcl::PointCloud<pcl::PointXYZI>());
+
+		harris.setInputCloud(tmpCloud);
+		harris.setMethod(harris.LOWE);
+		harris.setRadius(normal);
+		harris.setRadiusSearch(check);
+		harris.setNonMaxSupression(true);
+		harris.setThreshold(thr);
+		harris.setNumberOfThreads(10);
+		harris.compute(*harrisPt);
+
+		pcl::PointIndicesConstPtr keypot = harris.getKeypointsIndices();
+		pcl::copyPointCloud(*tmpCloud,*keypot,*cloud_out);
+
+
+
+		QString saveFileName = QFileDialog::getSaveFileName(this, QStringLiteral("保存结果"), QStringLiteral("./result.pcd"), QStringLiteral("点云数据(*.ply *.pcd)"));
+		if (saveFileName.isEmpty()) return;
+
+
+		int saveRes = 1;
+		saveFileName = QFileInfo(saveFileName).absolutePath() + "/" + QFileInfo(saveFileName).baseName() + "_" + outFileName + "." + QFileInfo(saveFileName).suffix();
+		saveRes = savePtCloud(cloud_out, saveFileName);
+
+		saveCloudToMap(saveFileName);
+
+		if (saveRes != 0)
+		{
+			PCL_ERROR("Error writing point cloud %s\n", saveFileName.toStdString().c_str());
+			return;
+		}
+		else
+		{
+			addItems(saveFileName);
+			emit closeHarrisDialog();
+		}
+
+	}
+}
+
+void LidarMaster::addItems(const QString& saveFileName)
+{
+	QTreeWidgetItem* item11 = new QTreeWidgetItem();
+	item11->setIcon(0, QIcon(":/LidarMaster/img/las.png"));
+	item11->setCheckState(0, Qt::Unchecked);
+	item11->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsAutoTristate);
+	item11->setText(0, QFileInfo(saveFileName).fileName());
+	item11->setData(0, Qt::UserRole + 1, saveFileName);
+	m_PtrProTree->topLevelItem(0)->addChild(item11);
+	QMessageBox::information(this, QStringLiteral("提示"), QStringLiteral("操作完成"), QStringLiteral("关闭"));
 }

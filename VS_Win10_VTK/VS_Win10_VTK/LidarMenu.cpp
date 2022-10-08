@@ -15,7 +15,7 @@ LidarMenu::LidarMenu(QWidget* parent, LidarMaster* lasMaster)
 	m_PtrNewPro = new LidarNewPro;
 	m_PtrNewPro->setLidarMatser(lasMaster);
 
-	m_PtrCloudRender = new PtRenderWidget(this);
+	
 
 	m_PtrFilterDialog = new PtFilterDialog(this);
 	connect(m_PtrFilterDialog, SIGNAL(sendFilterVal(int,double,QString&)), m_PtrLidarMaster, SLOT(recvFilterVal(int,double, QString&)));
@@ -24,15 +24,29 @@ LidarMenu::LidarMenu(QWidget* parent, LidarMaster* lasMaster)
 	m_PtGridFilterDialog = new PtGridFilterDialog(this);
 	connect(m_PtGridFilterDialog, SIGNAL(sendGridAndType(int, int)), m_PtrLidarMaster, SLOT(recvGridAndType(int, int)));
 	connect(m_PtrLidarMaster, SIGNAL(closeGridFilterDialogSignal), m_PtGridFilterDialog, SLOT(closeDialog));
-
+	
+	m_PtrCloudRender = new PtRenderWidget(this);
 	connect(m_PtrCloudRender, SIGNAL(sendData(QString&)), m_PtrLidarMaster, SLOT(recvRenderCoords(QString&)));
 	connect(this, SIGNAL(sendLidarColor(QColor&)), m_PtrLidarMaster, SLOT(recColorInfoSlot(QColor&)));
+	
+	m_PtSIFTKeyPoint = new PtKeyPointSIFT(this);
+	connect(m_PtSIFTKeyPoint, SIGNAL(sendSIFTval(float, int, int, float)), m_PtrLidarMaster, SLOT(recvSIFTval(float, int, int, float)));
+	connect(m_PtrLidarMaster, SIGNAL(closeSIFTDialog), m_PtSIFTKeyPoint, SLOT(closeSIFTDialogslot));
+
+	m_PtKeyPointHarris = new PtKeyPointHarris(this);
+	connect(m_PtKeyPointHarris, SIGNAL(sendHarrisArgument(float, float, float)), m_PtrLidarMaster, SLOT(recvHarrisval(float, float, float)));
+	connect(m_PtrLidarMaster, SIGNAL(closeHarrisDialog), m_PtKeyPointHarris, SLOT(closeHarrisDialogslot));
+
+	
 	menu_File();
 	menu_PtCloudSetup();
 	menu_PtFilter();
-
-
+	menu_showKeyPt();
+	menu_registPt();
+	menu_ClipPt();
+	menu_reBuild();
 	menu_ShowWin();
+	menu_about();
 }
 
 LidarMenu::~LidarMenu()
@@ -114,6 +128,54 @@ void LidarMenu::menu_PtFilter()
 	filterMenu->addAction(Act_pt_filter1);
 	
 	filterMenu->addAction(Act_pt_filter3);
+}
+void LidarMenu::menu_showKeyPt()
+{
+	QAction* Act_pt_sift = new QAction(QIcon(":/LidarMaster/img/point.png"), QStringLiteral("SIFT关键点"), this);
+	connect(Act_pt_sift, SIGNAL(triggered()), this, SLOT(showKeypoint()));
+
+	QAction* Act_pt_harris = new QAction(QIcon(":/LidarMaster/img/point.png"), QStringLiteral("Harris关键点"), this);
+	connect(Act_pt_harris, SIGNAL(triggered()), this, SLOT(showHarrisKeypoint()));
+
+	QMenu* filterMenu = addMenu(QStringLiteral("关键点显示"));
+	filterMenu->addAction(Act_pt_harris);
+
+	filterMenu->addAction(Act_pt_sift);
+
+}
+void LidarMenu::menu_registPt()
+{
+	QAction* Act_pt_harris = new QAction(QIcon(":/LidarMaster/img/match.png"), QStringLiteral("FPCS"), this);
+	QAction* Act_pt_harris1 = new QAction(QIcon(":/LidarMaster/img/match.png"), QStringLiteral("Super4PCS"), this);
+
+	QMenu* filterMenu = addMenu(QStringLiteral("点云配准"));
+	filterMenu->addAction(Act_pt_harris);
+	filterMenu->addAction(Act_pt_harris1);
+}
+void LidarMenu::menu_ClipPt()
+{
+	QAction* Act_pt_harris = new QAction(QIcon(":/LidarMaster/img/line.png"), QStringLiteral("直线分割"), this);
+	QAction* Act_pt_harris1 = new QAction(QIcon(":/LidarMaster/img/circle.png"), QStringLiteral("圆形分割"), this);
+
+	QMenu* filterMenu = addMenu(QStringLiteral("点云分割"));
+	filterMenu->addAction(Act_pt_harris);
+	filterMenu->addAction(Act_pt_harris1);
+
+}
+void LidarMenu::menu_reBuild()
+{
+	QAction* Act_pt_harris = new QAction(QIcon(":/LidarMaster/img/rebuild.png"), QStringLiteral("重建"), this);
+
+	QMenu* filterMenu = addMenu(QStringLiteral("点云重建"));
+	filterMenu->addAction(Act_pt_harris);
+}
+void LidarMenu::menu_about()
+{
+	QAction* Act_pt_harris = new QAction(QIcon(":/LidarMaster/img/help.png"), QStringLiteral("关于"), this);
+
+	QMenu* filterMenu = addMenu(QStringLiteral("关于"));
+	filterMenu->addAction(Act_pt_harris);
+
 }
 void LidarMenu::Pro_Open()
 {
@@ -209,8 +271,16 @@ void LidarMenu::showFilterDialog()
 	m_PtrFilterDialog->show();
 }
 
+void LidarMenu::showKeypoint()
+{
+	m_PtSIFTKeyPoint->show();
+}
+
 void LidarMenu::showGridFilterDialog()
 {
 	m_PtGridFilterDialog->show();
 }
-
+void  LidarMenu::showHarrisKeypoint()
+{
+	m_PtKeyPointHarris->show();
+}

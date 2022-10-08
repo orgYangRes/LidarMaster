@@ -19,5 +19,11 @@
         <file>img/gridfilter.png</file>
         <file>img/toLeft.png</file>
         <file>img/toright.png</file>
+        <file>img/circle.png</file>
+        <file>img/help.png</file>
+        <file>img/line.png</file>
+        <file>img/match.png</file>
+        <file>img/point.png</file>
+        <file>img/rebuild.png</file>
     </qresource>
 </RCC>
