@@ -13,6 +13,8 @@
 #include <pcl/keypoints/harris_3d.h>
 #include <pcl/keypoints/sift_keypoint.h>
 #include <pcl/features/normal_3d.h>
+#include <CGAL/IO/read_ply_points.h>
+#include <CGAL/IO/write_ply_points.h>
 LidarMaster::LidarMaster(QWidget* parent)
 	: QMainWindow(parent)
 {
@@ -25,7 +27,7 @@ LidarMaster::LidarMaster(QWidget* parent)
 
 	m_PtrLasInfoTree = new QTreeWidget(this);
 
-
+	counts = 0;
 	connect(m_PtrProTree, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(treeItemClickedSlot(QTreeWidgetItem*, int)));
 	// 设置主窗体属性
 	MainFramAttri();
@@ -252,6 +254,128 @@ void LidarMaster::recvGridAndType(int gridVal, int type)
 
 
 }
+void LidarMaster::pcl2CGAL()
+{
+
+	std::vector<PointVectorPair> cgal_cloud;
+	int size = sizeof(std::vector<PointVectorPair>::size_type);
+	if (m_mapCloud.size() <= 0) return;
+	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud;
+	cloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
+	getPtCLoud(m_mapCloud[m_nCloudIndex], cloud);
+	// 计算法线
+	pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
+	ne.setInputCloud(cloud);
+	pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>());
+	tree->setInputCloud(cloud);
+	ne.setSearchMethod(tree);
+	ne.setKSearch(20);
+	// Output datasets
+	pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(new pcl::PointCloud<pcl::Normal>);
+	ne.compute(*cloud_normals);
+	pcl::PointCloud<PointNormal>::Ptr pncloud(new pcl::PointCloud<PointNormal>);
+	concatenateFields(*cloud, *cloud_normals, *pncloud);
+
+	for (int i = 0; i < pncloud->size(); i++)
+	{
+		double x = pncloud->points[i].x / 20000;
+		double y = pncloud->points[i].y / 20000;
+		double z = pncloud->points[i].z / 20000;
+		double nx = pncloud->points[i].normal_x;
+		double ny = pncloud->points[i].normal_y;
+		double nz = pncloud->points[i].normal_z;
+		cgal_cloud.push_back(PointVectorPair(Point(x, y, z), Vector(nx, ny, nz)));
+	}
+	int size1 = sizeof(std::vector<PointVectorPair>::size_type);
+	const double sharpness_angle = 10;   // control sharpness of the result.
+	const double edge_sensitivity = 0;    // higher values will sample more points near the edges
+	const double neighbor_radius = 0.25;  // initial size of neighborhood.
+	const std::size_t number_of_output_points = cgal_cloud.size() * 2;
+	CGAL::edge_aware_upsample_point_set<Concurrency_tag>(
+		cgal_cloud,
+		std::back_inserter(cgal_cloud),
+		CGAL::parameters::point_map(CGAL::First_of_pair_property_map<PointVectorPair>()).
+		normal_map(CGAL::Second_of_pair_property_map<PointVectorPair>()).
+		sharpness_angle(sharpness_angle).
+		edge_sensitivity(edge_sensitivity).
+		neighbor_radius(neighbor_radius).
+		number_of_output_points(number_of_output_points));
+	pcl::PointCloud<pcl::PointXYZ>::Ptr cgalCloud;
+	cgalCloud.reset(new pcl::PointCloud<pcl::PointXYZ>);
+
+	for (int i = 0; i < cgal_cloud.size(); i++)
+	{
+		pcl::PointXYZ pt;
+		Point p_temp = cgal_cloud[i].first;
+		pt.x = p_temp.hx() * 20000;
+		pt.y = p_temp.hy() * 20000;
+		pt.z = p_temp.hz() * 20000;
+		cgalCloud->push_back(pt);
+	}
+	QString outFileName = "usample";
+	QString saveFileName = QFileDialog::getSaveFileName(this, QStringLiteral("保存结果"), QStringLiteral("./result.pcd"), QStringLiteral("点云数据(*.ply *.pcd)"));
+	if (saveFileName.isEmpty()) return;
+
+
+	int saveRes = 1;
+	saveFileName = QFileInfo(saveFileName).absolutePath() + "/" + QFileInfo(saveFileName).baseName() + "_" + outFileName + "." + QFileInfo(saveFileName).suffix();
+	saveRes = savePtCloud(cgalCloud, saveFileName);
+
+	saveCloudToMap(saveFileName);
+
+	if (saveRes != 0)
+	{
+		PCL_ERROR("Error writing point cloud %s\n", saveFileName.toStdString().c_str());
+		return;
+	}
+	else
+	{
+		addItems(saveFileName);
+	}
+
+
+	//const char* input_filename = "D:/Lidar_Master/LidarMaster/data/3.ply";
+	//const char* output_filename = "D:/Lidar_Master/LidarMaster/data/311.ply";
+	//// Reads a .xyz point set file in points[], *with normals*.
+	//std::vector<PointVectorPair> points;
+	//std::ifstream stream(input_filename);
+	//if (!stream ||
+	//	!CGAL::read_ply_points(stream,
+	//		std::back_inserter(points),
+	//		CGAL::parameters::point_map(CGAL::First_of_pair_property_map<PointVectorPair>()).
+	//		normal_map(CGAL::Second_of_pair_property_map<PointVectorPair>())))
+	//{
+	//	std::cerr << "Error: cannot read file " << input_filename << std::endl;
+	//	
+	//}
+	////Algorithm parameters
+	//const double sharpness_angle = 25;   // control sharpness of the result.
+	//const double edge_sensitivity = 0;    // higher values will sample more points near the edges
+	//const double neighbor_radius = 0.25;  // initial size of neighborhood.
+	//const std::size_t number_of_output_points = points.size() * 4;
+	////Run algorithm
+	//CGAL::edge_aware_upsample_point_set<Concurrency_tag>(
+	//	points,
+	//	std::back_inserter(points),
+	//	CGAL::parameters::point_map(CGAL::First_of_pair_property_map<PointVectorPair>()).
+	//	normal_map(CGAL::Second_of_pair_property_map<PointVectorPair>()).
+	//	sharpness_angle(sharpness_angle).
+	//	edge_sensitivity(edge_sensitivity).
+	//	neighbor_radius(neighbor_radius).
+	//	number_of_output_points(number_of_output_points));
+	//// Saves point set.
+	//std::ofstream out(output_filename);
+	//out.precision(17);
+	//if (!out ||
+	//	!CGAL::write_ply_points(
+	//		out, points,
+	//		CGAL::parameters::point_map(CGAL::First_of_pair_property_map<PointVectorPair>()).
+	//		normal_map(CGAL::Second_of_pair_property_map<PointVectorPair>())))
+	//{
+	//	qDebug() << "ok";
+	//}
+	
+}
 void LidarMaster::MainFramAttri()
 {
 	// 软件名称
@@ -420,6 +544,12 @@ void LidarMaster::treeItemClickedSlot(QTreeWidgetItem* item, int col)
 			}
 			m_nCloudIndex = getIndex(lidarFile);
 			showLidarData(lidarFile, m_nCloudIndex);
+			if (counts == 0)
+			{
+				pcl2CGAL();
+				counts++;
+			}
+
 		}
 		else
 		{

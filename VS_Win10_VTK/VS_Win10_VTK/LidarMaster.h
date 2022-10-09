@@ -13,6 +13,28 @@
 #include <qsharedpointer.h>
 #include <QMap>
 #include <atomic>
+
+#include <CGAL/Simple_cartesian.h>
+#include <CGAL/edge_aware_upsample_point_set.h>
+
+#include <utility> // defines std::pair
+#include <list>
+#include <fstream>
+#include <string>
+#include <vector>
+#define CGAL_LINKED_WITH_TBB
+
+typedef CGAL::Simple_cartesian<double> Kernel;
+typedef Kernel::Point_3 Point;
+typedef Kernel::Vector_3 Vector;
+typedef std::pair<Point, Vector> PointVectorPair;
+#ifdef CGAL_LINKED_WITH_TBB
+typedef CGAL::Parallel_tag Concurrency_tag;
+#else
+typedef CGAL::Sequential_tag Concurrency_tag;
+#endif
+
+
 class LidarMenu;
 class QVTKWindow;
 class LidarMaster : public QMainWindow
@@ -47,8 +69,13 @@ public:
      vtkSmartPointer<vtkRenderer>renderer2;
      vtkSmartPointer<vtkGenericOpenGLRenderWindow>renderWindow2;
 
+     //点云上采样CGAL
+
+     void pcl2CGAL();
+
 private:
     Ui::LidarMasterClass ui;
+    int counts = 0;
     // 主窗体属性配置
     void MainFramAttri();
     std::atomic<int> m_nCloudIndex = 0;
